@@ -1,25 +1,60 @@
 {
-  "name": "kaleidoscopic-prize-kouprey",
-  "version": "1.0.0",
-  "private": true,
+  "name": "vue-notus",
+  "homepage": "https://demos.creative-tim.com/vue-notus/",
+  "version": "1.1.0",
+  "description": "Vue Notus - A free Tailwind CSS and VueJS UI Kit and Admin by Creative Tim.",
+  "repository": "https://github.com/creativetimofficial/vue-notus",
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build --openssl-legacy-provider",
+    "lint": "vue-cli-service lint",
+    "build:tailwind": "tailwind build src/assets/styles/index.css -o src/assets/styles/tailwind.css",
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm run build:tailwind && npm run serve"
   },
   "dependencies": {
-    "vue": "^2.6.7",
-    "vue-router": "^3.0.2",
-    "vue-meta": "^2.2.1",
-    "@lottiefiles/vue-lottie-player": "1.0.4",
-    "next": "^12.1.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "@fawmi/vue-google-maps": "^0.9.79",
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "@popperjs/core": "2.9.1",
+    "@tailwindcss/forms": "0.2.1",
+    "@vue/compiler-sfc": "3.0.7",
+    "chart.js": "2.9.4",
+    "core-js": "3.9.1",
+    "gulp": "4.0.2",
+    "gulp-append-prepend": "1.0.8",
+    "socket.io-client": "^4.8.1",
+    "tailwindcss": "2.0.4",
+    "vue": "3.0.7",
+    "vue-final-modal": "^3.4.11",
+    "vue-router": "4.0.5",
+    "vue-sweetalert2": "^5.0.11"
   },
   "devDependencies": {
-    "@vue/babel-preset-app": "^5.0.8",
-    "@vue/cli-plugin-babel": "^5.0.4",
-    "@vue/cli-service": "^5.0.8",
-    "vue-template-compiler": "^2.6.7"
+    "@babel/core": "7.13.10",
+    "@babel/eslint-parser": "7.13.10",
+    "@vue/cli-plugin-babel": "5.0.0-alpha.7",
+    "@vue/cli-plugin-eslint": "5.0.0-alpha.7",
+    "@vue/cli-service": "5.0.0-alpha.7",
+    "autoprefixer": "10.2.5",
+    "cross-env": "^7.0.3",
+    "eslint": "7.22.0",
+    "eslint-plugin-vue": "7.7.0",
+    "postcss": "8.4.39",
+    "vue-template-compiler": "2.6.12"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "@babel/eslint-parser"
+    }
   },
   "postcss": {
     "plugins": {
@@ -28,7 +63,9 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+    "last 2 versions"
+  ],
+  "engines": {
+    "node": "16.16.0"
+  }
 }
