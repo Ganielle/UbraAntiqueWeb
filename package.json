@@ -22,9 +22,11 @@
     "core-js": "3.9.1",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.8",
+    "html-truncate": "^1.2.2",
     "socket.io-client": "^4.8.1",
     "tailwindcss": "2.0.4",
     "vue": "3.0.7",
+    "vue-content-loader": "^2.0.1",
     "vue-final-modal": "^3.4.11",
     "vue-router": "4.0.5",
     "vue-sweetalert2": "^5.0.11"

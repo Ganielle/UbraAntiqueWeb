@@ -54,7 +54,7 @@
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
             <router-link
-              to="/user/dashboard"
+              to="/employee/dashboard"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -108,7 +108,7 @@
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
             <router-link
-              to="/user/store"
+              to="/employee/myprofile"
               v-slot="{ href, navigate, isActive }"
             >
               <a

@@ -55,6 +55,7 @@ import ForumPostRequest from '@/views/superadmin/forums/Forumrequestlist.vue'
 //  #region USER
 
 import Userdashboard from '@/views/user/employee/Dashboard.vue'
+import Userprofile from '@/views/user/employee/Profile.vue'
 
 //  #endregion
 
@@ -138,6 +139,10 @@ const routes = [
       {
         path: "/employee/dashboard",
         component: Userdashboard,
+      },
+      {
+        path: "/employee/myprofile",
+        component: Userprofile,
       },
     ]
   },
