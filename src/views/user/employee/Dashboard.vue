@@ -12,7 +12,10 @@
     <div class="mb-3 pt-0">
       <input type="text" placeholder="Search Job Title / Description / Role" class="px-3 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base shadow outline-none focus:outline-none focus:shadow-outline w-full" v-model="search"/>
     </div>
-    <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="GetData()">
+    <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="() => {
+      currentpage = 0
+      GetData()
+    }">
       SEARCH
     </button>
 
@@ -54,8 +57,8 @@
             </button>
         </div>
         <br/><br/>
-          <div v-for="job in jobs" :key="job._id" style="width: 100%; height: 100%; background-color: white; border-radius: 5px; padding-bottom: 10px; position: relative;">
-            <p style="font-size: 2rem; margin-left: 20px; padding-top: 20px;">{{ job.title }}</p>
+          <div v-for="job in jobs" :key="job._id" style="width: 100%; height: 100%; background-color: white; border-radius: 5px; margin-top: 20px; padding-bottom: 10px; position: relative;">
+            <p style="font-size: 2rem; margin-left: 20px; padding-top: 20px;  font-weight: bold;">{{ job.title }}</p>
             <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 0.8rem;">
               <p style="font-weight: bold; margin: 0;">
                 Posted by: {{ job.ownerDetails.firstname.toUpperCase() }} {{ job.ownerDetails.lastname.toUpperCase() }}
@@ -68,7 +71,15 @@
             <div style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px;">
               <button
                   style="padding: 6px 12px; background-color: #22c55e; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                  @click="ViewDocument()"
+                  @click="() =>{
+                    $router.push({
+                      path: '/employee/jobdescription',
+                      query: {
+                        title: job.title,
+                        id: job._id
+                      }
+                    })
+                  }"
                   >
                   View More Details
               </button>
@@ -136,6 +147,14 @@ export default {
     },
     truncatedDescription(html) {
       return htmlTruncate(html, 450); // truncates to ~200 characters safely
+    },
+    PreviousePageRequest(){
+      this.currentpage--
+      this.GetData()
+    },
+    NextPageRequest(){
+      this.currentpage++
+      this.GetData()
     }
   },
   mounted() {

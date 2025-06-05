@@ -56,6 +56,7 @@ import ForumPostRequest from '@/views/superadmin/forums/Forumrequestlist.vue'
 
 import Userdashboard from '@/views/user/employee/Dashboard.vue'
 import Userprofile from '@/views/user/employee/Profile.vue'
+import UserJobDescription from '@/views/user/employee/Jobdescription.vue'
 
 //  #endregion
 
@@ -143,6 +144,14 @@ const routes = [
       {
         path: "/employee/myprofile",
         component: Userprofile,
+      },
+      {
+        path: "/employee/jobdescription",
+        component: UserJobDescription,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id
+        })
       },
     ]
   },
