@@ -66,7 +66,7 @@
               <p style="font-weight: bold; margin: 0;">Created at: {{ job.createdAt }}</p>
             </div>
             
-            <div v-html="truncatedDescription(job.description)" style="font-size: 1rem; margin-left: 20px; padding-top: 20px;"></div>
+            <div v-html="truncatedDescription(job.description.replace(/\n/g, '<br>'))" style="font-size: 1rem; margin-left: 20px; padding-top: 20px;"></div>
             <br/><br/><br/>
             <div style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px;">
               <button

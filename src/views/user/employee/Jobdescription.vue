@@ -37,7 +37,7 @@
                 <p style="font-weight: bold; margin: 0;">Created at: {{ job.createdAt }}</p>
             </div>
             
-            <div v-html="job.description" style="font-size: 1rem; margin-left: 20px; padding-top: 20px;"></div>
+            <div v-html="job.description ? job.description.replace(/\n/g, '<br>') : ''" style="font-size: 1rem; margin-left: 20px; padding-top: 20px;"></div>
             <br/><br/>
             <div v-if="!job.isApplied" style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px;" hidden="true">
                 <button
