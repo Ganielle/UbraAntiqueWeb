@@ -22,6 +22,7 @@ import Auth from "@/layouts/Auth.vue";
 
 import Admin from "@/layouts/Admin.vue";
 import User from '@/layouts/User.vue'
+import Employer from '@/layouts/Employer.vue'
 
 //  #endregion
 
@@ -57,6 +58,12 @@ import ForumPostRequest from '@/views/superadmin/forums/Forumrequestlist.vue'
 import Userdashboard from '@/views/user/employee/Dashboard.vue'
 import Userprofile from '@/views/user/employee/Profile.vue'
 import UserJobDescription from '@/views/user/employee/Jobdescription.vue'
+
+//  #endregion
+
+//  #region EMPLOYER
+
+import Employerdashboard from '@/views/user/employer/Dashboard.vue'
 
 //  #endregion
 
@@ -152,6 +159,17 @@ const routes = [
           title: route.query.title,
           id: route.query.id
         })
+      },
+    ]
+  },
+  {
+    path: "/employer",
+    redirect: "/employer/myjobs",
+    component: Employer,
+    children: [
+      {
+        path: "/employer/myjobs",
+        component: Employerdashboard,
       },
     ]
   },
