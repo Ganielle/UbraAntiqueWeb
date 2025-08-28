@@ -136,9 +136,9 @@ export default {
         this.loginloading = false;
         return
       }
-      else if (this.username.length < 5 || this.username.length > 15 ){
+      else if (this.username.length < 5 || this.username.length > 30   ){
         this.$swal({
-          title: "Username must be greater than 5 and less than 15 characters",
+          title: "Username must be greater than 5 and less than 30 characters",
           icon: "error",
         })
         this.loginloading = false;
@@ -205,7 +205,6 @@ export default {
         this.$router.push({path: "/"})
       }
       else{
-
         if (responseData.data.authenticated == false){
           this.loginstate = "OTP"
           this.startTimer()

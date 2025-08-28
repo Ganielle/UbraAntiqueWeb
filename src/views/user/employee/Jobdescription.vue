@@ -6,9 +6,7 @@
     >
       <p @click="() => $router.push('/employee/dashboard')" class="breadcrumbs">HOME</p> / JOB DESCRIPTION / {{ title.toUpperCase() }}
     </div>
-    <br/><br/>
     <br/>
-
     <!-- Header -->
     <div v-if="loading">
       <div style="width: 100%; height: 200px; background-color: white; border-radius: 5px;">
@@ -28,47 +26,58 @@
       </div>
     </div>
     <div v-else>
-        <div style="width: 100%; height: 100%; background-color: white; border-radius: 5px; padding-bottom: 10px; position: relative;">
-            <p style="font-size: 2rem; margin-left: 20px; padding-top: 20px; font-weight: bold;">{{ job.title }}</p>
-            <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 0.8rem;">
-                <p style="font-weight: bold; margin: 0;">
-                    Posted by: {{ name.toUpperCase() }}
-                </p>
-                <p style="font-weight: bold; margin: 0;">Created at: {{ job.createdAt }}</p>
-            </div>
-            
-            <div v-html="job.description ? job.description.replace(/\n/g, '<br>') : ''" style="font-size: 1rem; margin-left: 20px; padding-top: 20px;"></div>
-            <br/><br/>
-            <div v-if="!job.isApplied" style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px;" hidden="true">
-                <button
-                    style="padding: 6px 12px; background-color: #22c55e; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                    @click="() =>{
-                        ApplyJob()
-                    }"
-                    >
-                    APPLY NOW!
-                </button>
-            </div>
-            <div v-else style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px;" hidden="true">
-                <button
-                    style="padding: 6px 12px; background-color: blue; color: white; border: none; border-radius: 4px; cursor: pointer;" disabled="true"
-                    >
-                    YOU ALREADY APPLIED TO THIS JOB!
-                </button>
-            </div>
-        </div>
-        <br/><br/>
-        <div style="width: 100%; height: 100%; background-color: white; border-radius: 5px; padding-bottom: 10px; position: relative;">
-            <p style="font-size: 1.5rem; margin-left: 20px; padding-top: 20px; font-weight: bold;">SALARY:</p>
-            <p style="font-size: 3rem; margin-left: 20px;">₱{{ job.salary }}</p>
 
-            <br/><br/>
-
-            <p style="font-size: 1.5rem; margin-left: 20px; padding-top: 20px; font-weight: bold;">NUMBER OF APPLICANTS:</p>
-            <p style="font-size: 3rem; margin-left: 20px;">{{ job.applicantCount }} Applicant(s)</p>
+      <p style="font-size: 2rem; margin-left: 20px; padding-top: 20px; font-weight: bold;">{{ job.title }}</p>
+      <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 0.8rem;">
+          <p style="font-weight: bold; margin: 0;">
+              Posted by: {{ name.toUpperCase() }}
+          </p>
+          <p style="font-weight: bold; margin: 0;">Created at: {{ job.createdAt }}</p>
+      </div>
+      <br/>
+      <hr>
+      <br/>
+      <div class="px-4 mx-auto">
+        <div class="flex flex-wrap">
+          <div class="w-full w-1/2 px-4 lg:w-8/12">
+            <div class="block my-4 p-3" style="background-color: white; border-radius: 5px;">
+              <div v-html="job.description ? job.description.replace(/\n/g, '<br>') : ''" style="margin-left: 20px; padding-top: 20px;"></div>
+            </div>
+          </div>
+          <div class="w-full px-4 lg:w-4/12">
+            <div class="block my-4 p-3">
+              <div v-if="!job.isApplied" class="w-full">
+                <button
+                  style="width: 100%; height: 50px; padding: 6px 12px; background-color: #22c55e; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                  @click="() =>{
+                      ApplyJob()
+                  }"
+                  >
+                  APPLY NOW!
+                </button>
+              </div>
+              <div v-else class="w-full">
+                <button
+                  style="width: 100%; height: 50px; padding: 6px 12px; background-color: blue; color: white; border: none; border-radius: 4px; cursor: pointer;" disabled="true"
+                  >
+                  YOU ALREADY APPLIED TO THIS JOB!
+                </button>
+              </div>
+              <br/>
+              <div style="background-color: white; border-radius: 5px; padding-bottom: 10px;">
+                <p style="font-size: 1.2rem; margin-left: 20px; padding-top: 20px; font-weight: 600;">SALARY:</p>
+                <p style="font-size: 1.3rem; margin-left: 20px; font-weight: bolder;">₱{{ job.salary }}</p>
+              </div>
+              <br/>
+              <div style="background-color: white; border-radius: 5px; padding-bottom: 10px;">
+                <p style="font-size: 1.2rem; margin-left: 20px; padding-top: 20px; font-weight: 600;">NUMBER OF APPLICANTS:</p>
+                <p style="font-size: 1.2rem; margin-left: 20px; word-wrap: break-word; font-weight: bolder;">{{ job.applicantCount }} Applicant(s)</p>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-    
   </div>
 </template>
 <script>

@@ -58,6 +58,7 @@ import ForumPostRequest from '@/views/superadmin/forums/Forumrequestlist.vue'
 import Userdashboard from '@/views/user/employee/Dashboard.vue'
 import Userprofile from '@/views/user/employee/Profile.vue'
 import UserJobDescription from '@/views/user/employee/Jobdescription.vue'
+import UserMyJobs from '@/views/user/employee/Myjobs.vue'
 
 //  #endregion
 
@@ -160,6 +161,10 @@ const routes = [
           id: route.query.id
         })
       },
+      {
+        path: "/employee/myjobs",
+        component: UserMyJobs
+      }
     ]
   },
   {

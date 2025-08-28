@@ -162,9 +162,9 @@ export default {
         this.registerloading = false;
         return
       }
-      else if (this.user.username.length < 5 || this.user.username.length > 15 ){
+      else if (this.user.username.length < 5 || this.user.username.length > 30 ){
         this.$swal({
-          title: "Username must be greater than 5 and less than 15 characters",
+          title: "Username must be greater than 5 and less than 30 characters",
           icon: "error",
         })
         this.registerloading = false;
