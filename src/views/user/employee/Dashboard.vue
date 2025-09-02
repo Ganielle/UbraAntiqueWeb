@@ -9,15 +9,25 @@
     <br/><br/>
     <br/>
     <!-- Header -->
-    <div class="mb-3 pt-0">
-      <input type="text" placeholder="Search Job Title / Description / Role" class="px-3 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base shadow outline-none focus:outline-none focus:shadow-outline w-full" v-model="search"/>
+    <div class="px-4 mx-auto">
+      <div class="flex flex-wrap">
+        <div class="w-full w-1/2 px-4 lg:w-9/12">
+          <div class="block mb-3 pt-0">
+              <input type="text" placeholder="Search Job Title / Description / Role" class="px-3 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base shadow outline-none focus:outline-none focus:shadow-outline w-full" v-model="search"/>
+          </div>
+        </div>
+        <div class="w-full px-4 lg:w-3/12">
+          <div class="block">
+              <button class="w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="() => {
+              currentpage = 0
+              GetData()
+              }">
+              SEARCH
+              </button>
+          </div>
+        </div>
+      </div>
     </div>
-    <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="() => {
-      currentpage = 0
-      GetData()
-    }">
-      SEARCH
-    </button>
 
     <br/><br/>
     <br/><br/>
@@ -44,7 +54,7 @@
           No jobs listed yet!
         </center>
       </h2>
-      <div v-else>
+      <div v-else style="">
         <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
             <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="PreviousePageRequest" :disabled="loading || totalpage <= 0">
                 <i class="fas fa-chevron-left"></i>
@@ -57,34 +67,43 @@
             </button>
         </div>
         <br/><br/>
-          <div v-for="job in jobs" :key="job._id" style="width: 100%; height: 100%; background-color: white; border-radius: 5px; margin-top: 20px; padding-bottom: 10px; position: relative;">
-            <p style="font-size: 2rem; margin-left: 20px; padding-top: 20px;  font-weight: bold;">{{ job.title }}</p>
-            <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 0.8rem;">
-              <p style="font-weight: bold; margin: 0;">
-                Posted by: {{ job.ownerDetails.firstname.toUpperCase() }} {{ job.ownerDetails.lastname.toUpperCase() }}
+        <div class="flex flex-wrap gap-2 items-stretch">
+          <div 
+            v-for="job in jobs" 
+            :key="job._id"
+            class="w-full sm:w-10/12 md:w-7/12 lg:w-6/12 xl:w-4/12 min-h-[100px] p-5 relative flex flex-col"
+          >
+            <div class="bg-white border border-black rounded p-5">
+              <p class="text-lg font-bold mb-3">
+                {{ job.title }}
               </p>
-              <p style="font-weight: bold; margin: 0;">Created at: {{ job.createdAt }}</p>
-            </div>
-            
-            <div v-html="truncatedDescription(job.description.replace(/\n/g, '<br>'))" style="font-size: 1rem; margin-left: 20px; padding-top: 20px;"></div>
-            <br/><br/><br/>
-            <div style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px;">
-              <button
-                  style="padding: 6px 12px; background-color: #22c55e; color: white; border: none; border-radius: 4px; cursor: pointer;"
+
+              <div class="text-xs font-bold mb-3">
+                <p>Posted by: {{ job.ownerDetails.firstname.toUpperCase() }} {{ job.ownerDetails.lastname.toUpperCase() }}</p>
+                <p>Created at: {{ formatDate(job.createdAt) }}</p>
+              </div>
+
+              <div 
+                v-html="truncatedDescription(job.description.replace(/\n/g, '<br>'))" 
+                class="text-base mb-10 flex-grow"
+              ></div>
+
+              <div class="mt-auto text-right">
+                <button
+                  class="bg-emerald-500 text-white px-3 py-1 rounded shadow hover:shadow-lg"
                   @click="() =>{
                     $router.push({
                       path: '/employee/jobdescription',
-                      query: {
-                        title: job.title,
-                        id: job._id
-                      }
+                      query: { title: job.title, id: job._id }
                     })
                   }"
-                  >
-                  View More Details
-              </button>
+                >
+                  View Details
+                </button>
+              </div>
             </div>
           </div>
+        </div>
       </div>
     </div>
   </div>
@@ -155,6 +174,14 @@ export default {
     NextPageRequest(){
       this.currentpage++
       this.GetData()
+    },
+    formatDate(isoString) {
+      const date = new Date(isoString)
+      return date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",   // August
+        day: "numeric",  // 27
+      })
     }
   },
   mounted() {

@@ -32,7 +32,7 @@
           <p style="font-weight: bold; margin: 0;">
               Posted by: {{ name.toUpperCase() }}
           </p>
-          <p style="font-weight: bold; margin: 0;">Created at: {{ job.createdAt }}</p>
+          <p style="font-weight: bold; margin: 0;">Created at: {{ formatDate(job.createdAt) }}</p>
       </div>
       <br/>
       <hr>
@@ -188,6 +188,14 @@ export default {
     truncatedDescription(html) {
       return htmlTruncate(html, 450); // truncates to ~200 characters safely
     },
+    formatDate(isoString) {
+      const date = new Date(isoString)
+      return date.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",   // August
+        day: "numeric",  // 27
+      })
+    }
   },
   mounted() {
     this.GetData()

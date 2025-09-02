@@ -135,7 +135,7 @@
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
             <router-link
-              to="/user/livebidding"
+              to="/employee/message"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -168,7 +168,7 @@
       </button>
     </div>
   </nav>
-</template>
+</template>asdfadsfas
 
 <script>
 export default {

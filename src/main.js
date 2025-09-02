@@ -59,6 +59,7 @@ import Userdashboard from '@/views/user/employee/Dashboard.vue'
 import Userprofile from '@/views/user/employee/Profile.vue'
 import UserJobDescription from '@/views/user/employee/Jobdescription.vue'
 import UserMyJobs from '@/views/user/employee/Myjobs.vue'
+import UserMessaging from '@/views/user/employee/Message.vue'
 
 //  #endregion
 
@@ -164,6 +165,10 @@ const routes = [
       {
         path: "/employee/myjobs",
         component: UserMyJobs
+      },
+      {
+        path: "/employee/message",
+        component: UserMessaging
       }
     ]
   },
