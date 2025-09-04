@@ -4,10 +4,11 @@
       class="text-black text-xl uppercase lg:inline-block font-semibold pt-12"
       href="javascript:void(0)"
     >
-      HOME
+      JOB LISTING
     </a>
+
+    <hr/>
     <br/><br/>
-    <br/>
     <!-- Header -->
     <div class="px-4 mx-auto">
       <div class="flex flex-wrap">
@@ -29,8 +30,7 @@
       </div>
     </div>
 
-    <br/><br/>
-    <br/><br/>
+    <br/>
     <div v-if="loading">
       <div style="width: 100%; height: 200px; background-color: white; border-radius: 5px;">
         <ContentLoader viewBox="0 0 250 110">
@@ -55,18 +55,7 @@
         </center>
       </h2>
       <div v-else style="">
-        <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
-            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="PreviousePageRequest" :disabled="loading || totalpage <= 0">
-                <i class="fas fa-chevron-left"></i>
-            </button>
 
-            <p style="font-size: 1.4rem; font-weight: bold;">{{ currentpage  + 1 }} / {{ totalpage }}</p>
-
-            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage">
-                <i class="fas fa-chevron-right"></i>
-            </button>
-        </div>
-        <br/><br/>
         <div class="flex flex-wrap gap-2 items-stretch">
           <div 
             v-for="job in jobs" 
@@ -103,6 +92,18 @@
               </div>
             </div>
           </div>
+        </div>
+        
+        <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="PreviousePageRequest" :disabled="loading || totalpage <= 0">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <p style="font-size: 1.4rem; font-weight: bold;">{{ currentpage  + 1 }} / {{ totalpage }}</p>
+
+            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage">
+                <i class="fas fa-chevron-right"></i>
+            </button>
         </div>
       </div>
     </div>

@@ -60,12 +60,15 @@ import Userprofile from '@/views/user/employee/Profile.vue'
 import UserJobDescription from '@/views/user/employee/Jobdescription.vue'
 import UserMyJobs from '@/views/user/employee/Myjobs.vue'
 import UserMessaging from '@/views/user/employee/Message.vue'
+import UserMyJobDescription from '@/views/user/employee/Myjobdescription.vue'
 
 //  #endregion
 
 //  #region EMPLOYER
 
 import Employerdashboard from '@/views/user/employer/Dashboard.vue'
+import EmployerMessaging from '@/views/user/employer/Message.vue'
+import EmployerMyJobDescription from '@/views/user/employer/Myjobdescription.vue'
 
 //  #endregion
 
@@ -169,7 +172,15 @@ const routes = [
       {
         path: "/employee/message",
         component: UserMessaging
-      }
+      },
+      {
+        path: "/employee/myjobdescription",
+        component: UserMyJobDescription,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id
+        })
+      },
     ]
   },
   {
@@ -180,6 +191,18 @@ const routes = [
       {
         path: "/employer/myjobs",
         component: Employerdashboard,
+      },
+      {
+        path: "/employer/message",
+        component: EmployerMessaging
+      },
+      {
+        path: "/employer/myjobdescription",
+        component: EmployerMyJobDescription,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id
+        })
       },
     ]
   },

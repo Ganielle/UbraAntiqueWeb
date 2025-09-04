@@ -47,8 +47,8 @@
           <div class="w-full px-4 lg:w-4/12">
             <div class="block my-4 p-3">
               <div v-if="!job.isApplied" class="w-full">
-                <button
-                  style="width: 100%; height: 50px; padding: 6px 12px; background-color: #22c55e; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                <button class="bg-teal-500 text-white active:bg-teal-600"
+                  style="width: 100%; height: 50px; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer;"
                   @click="() =>{
                       ApplyJob()
                   }"
@@ -57,8 +57,8 @@
                 </button>
               </div>
               <div v-else class="w-full">
-                <button
-                  style="width: 100%; height: 50px; padding: 6px 12px; background-color: blue; color: white; border: none; border-radius: 4px; cursor: pointer;" disabled="true"
+                <button class="bg-lightBlue-500 text-white active:bg-lightBlue-600"
+                  style="width: 100%; height: 50px; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer;" disabled="true"
                   >
                   YOU ALREADY APPLIED TO THIS JOB!
                 </button>

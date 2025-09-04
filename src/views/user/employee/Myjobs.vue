@@ -4,11 +4,11 @@
         class="text-black text-xl uppercase lg:inline-block font-semibold pt-12"
         style="display: flex; "
         >
-        <p @click="() => $router.push('/employee/dashboard')" class="breadcrumbs">HOME</p> / MY JOBS
+        <p @click="() => $router.push('/employee/dashboard')" class="breadcrumbs">JOB LISTING</p> / MY JOBS
         </div>
 
+        <hr/>
         <br/><br/>
-
         <div class="px-4 mx-auto">
             <div class="flex flex-wrap">
                 <div class="w-full w-1/2 px-4 lg:w-9/12">
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <br/><br/>
+        <br/>
 
         <div v-if="loading">
             <div style="width: 100%; height: 200px; background-color: white; border-radius: 5px;">
@@ -49,19 +49,6 @@
             </div>
         </div>
         <div v-else>
-            <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
-                <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="PreviousePageRequest" :disabled="loading || totalpage <= 0">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-
-                <p style="font-size: 1.4rem; font-weight: bold;">{{ currentpage  + 1 }} / {{ totalpage }}</p>
-
-                <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-
-            <br/><br/>
 
             <div class="flex flex-wrap gap-2 items-stretch">
                 <div class="w-full sm:w-10/12 md:w-7/12 lg:w-6/12 xl:w-4/12 min-h-[100px] p-5 relative flex flex-col">
@@ -88,10 +75,10 @@
                             <button
                             class="bg-emerald-500 text-white px-3 py-1 rounded shadow hover:shadow-lg"
                             @click="() =>{
-                                // $router.push({
-                                // path: '/employee/jobdescription',
-                                // query: { title: job.title, id: job._id }
-                                // })
+                                $router.push({
+                                path: '/employee/myjobdescription',
+                                query: { title: job.title, id: job._id }
+                                })
                             }"
                             >
                             View More
@@ -99,6 +86,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+
+            
+            <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
+                <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="PreviousePageRequest" :disabled="loading || totalpage <= 0">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <p style="font-size: 1.4rem; font-weight: bold;">{{ currentpage  + 1 }} / {{ totalpage }}</p>
+
+                <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </div>
