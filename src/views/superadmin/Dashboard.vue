@@ -12,59 +12,41 @@
         
         <!--#region WALLETS-->
         <div>
-          <p class="text-lg font-semibold">WALLETS</p>
+          <p class="text-lg font-semibold">POST</p>
           <hr style="border-color: black;">
           <br/>
           <!-- Card stats -->
           <div class="flex flex-wrap">
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
-                statSubtitle="TOTAL INCOME"
+                statSubtitle="TOTAL WORK OFFERED"
                 :statTitle="`₱ ${totalincome + loan.loanincome}`"
-                statIconName="fas fa-wallet"
+                statIconName="fas fa-briefcase"
                 statIconColor="bg-emerald-500"
               />
             </div>
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
-                statSubtitle="BIDDING INCOME"
+                statSubtitle="TOTAL FORUM DISCUSSIONS"
                 statTitle="₱0.00"
-                statIconName="fas fa-wallet"
+                statIconName="fas fa-comments"
                 statIconColor="bg-red-500"
               />
             </div>
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
-                statSubtitle="LOAN INCOME"
+                statSubtitle="APPROVED WORK POSTED"
                 :statTitle="`₱ ${loan.loanincome}`"
-                statIconName="fas fa-wallet"
+                statIconName="fas fa-check-to-slot"
                 statIconColor="bg-pink-500"
               />
             </div>
-          </div>
-        </div>
-        <br/><br/>
-
-        <!--#region LOANS-->
-        <div>
-          <p class="text-lg font-semibold">LOANS</p>
-          <hr style="border-color: black;">
-          <br/>
-          <div class="flex flex-wrap">
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
-                statSubtitle="TOTAL ACTIVE LOAN"
-                :statTitle="`₱ ${loan.activeloan.totalAmount}`"
-                statIconName="fas fa-hand-holding-dollar"
+                statSubtitle="REJECTED WORK POSTED"
+                :statTitle="`₱ ${loan.loanincome}`"
+                statIconName="fas fa-xmark"
                 statIconColor="bg-orange-500"
-              />
-            </div>
-            <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-              <card-stats
-                statSubtitle="TOTAL FINISHED LOAN"
-                :statTitle="`₱ ${loan.finishedloan.totalWith5Percent}`"
-                statIconName="fas fa-hand-holding-dollar"
-                statIconColor="bg-emerald-500"
               />
             </div>
           </div>
@@ -104,18 +86,10 @@
             </div>
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
-                statSubtitle="FINANCERS"
+                statSubtitle="EMPLOYER"
                 :statTitle="totaluser.finance"
                 statIconName="fas fa-user"
                 statIconColor="bg-yellow-500"
-              />
-            </div>
-            <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
-              <card-stats
-                statSubtitle="CUSTOMER SUPPORT"
-                :statTitle="totaluser.customersupport"
-                statIconName="fas fa-user"
-                statIconColor="bg-pink-500"
               />
             </div>
           </div>

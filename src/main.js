@@ -30,7 +30,9 @@ import Employer from '@/layouts/Employer.vue'
 
 import Dashboard from "@/views/superadmin/Dashboard.vue";
 
-import ManageaccountAdmin from '@/views/superadmin/manageaccount/Admin.vue'
+import WorksSA from '@/views/superadmin/Works.vue'
+import WorksListSA from '@/views/superadmin/Workslist.vue'
+
 import ManageaccountFinancer from '@/views/superadmin/manageaccount/Financer.vue'
 import ManageaccountCustomerSupport from '@/views/superadmin/manageaccount/Customersupport.vue'
 import ManageaccountUser from '@/views/superadmin/manageaccount/User.vue'
@@ -83,8 +85,12 @@ const routes = [
         component: Dashboard,
       },
       {
-        path: "/superadmin/manageuser/admin",
-        component: ManageaccountAdmin,
+        path: "/superadmin/works/approval",
+        component: WorksSA,
+      },
+      {
+        path: "/superadmin/works/list",
+        component: WorksListSA,
       },
       {
         path: "/superadmin/manageuser/financer",

@@ -18,7 +18,7 @@
         class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
         to="/"
       >
-        Subas Tanauan
+        Ubra Antique
       </router-link>
       <!-- Collapse -->
       <div
@@ -35,7 +35,7 @@
                 class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                 to="/"
               >
-                Subas Tanauan
+                Ubra Antique
               </router-link>
             </div>
             <div class="w-6/12 flex justify-end">
@@ -112,54 +112,6 @@
 
           <li class="items-center">
             <router-link
-              to="/superadmin/manageuser/financer"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-user-tie mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                Financer
-              </a>
-            </router-link>
-          </li>
-
-          <li class="items-center">
-            <router-link
-              to="/superadmin/manageuser/customersupport"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-ticket mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                Customer Support
-              </a>
-            </router-link>
-          </li>
-
-          <li class="items-center">
-            <router-link
               to="/superadmin/manageuser/user"
               v-slot="{ href, navigate, isActive }"
             >
@@ -184,6 +136,30 @@
 
           <li class="items-center">
             <router-link
+              to="/superadmin/manageuser/user"
+              v-slot="{ href, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="fas fa-user mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+                EMPLOYER
+              </a>
+            </router-link>
+          </li>
+
+          <li class="items-center">
+            <router-link
               to="/superadmin/manageuser/useridverification"
               v-slot="{ href, navigate, isActive }"
             >
@@ -201,23 +177,15 @@
                   class="fas fa-id-card mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                User ID Verification
+                User Verification
               </a>
             </router-link>
           </li>
-        </ul>
 
-        <!--#region THIRD NAVIGATION (INVENTORY)-->
-        <hr class="my-4 md:min-w-full" />
-        <h6
-          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-        >
-          Inventory
-        </h6>
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+          
           <li class="items-center">
             <router-link
-              to="/superadmin/inventory/store"
+              to="/superadmin/manageuser/useridverification"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -231,10 +199,69 @@
                 ]"
               >
                 <i
-                  class="fas fa-store  mr-2 text-sm"
+                  class="fas fa-id-card mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                Store
+                EMPLOYER Verification
+              </a>
+            </router-link>
+          </li>
+
+        </ul>
+        
+
+        <!--#region THIRD NAVIGATION (INVENTORY)-->
+        <hr class="my-4 md:min-w-full" />
+        <h6
+          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+        >
+          WORKS
+        </h6>
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+          <li class="items-center">
+            <router-link
+              to="/superadmin/works/approval"
+              v-slot="{ href, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="fas fa-briefcase  mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+                APPROVAL
+              </a>
+            </router-link>
+          </li>
+
+          <li class="items-center">
+            <router-link
+              to="/superadmin/works/list"
+              v-slot="{ href, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="fas fa-briefcase  mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+                LIST
               </a>
             </router-link>
           </li>
@@ -255,10 +282,10 @@
                 ]"
               >
                 <i
-                  class="fas fa-boxes-stacked mr-2 text-sm"
+                  class="fas fa-comments mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                Items
+                FORUMS
               </a>
             </router-link>
           </li>
@@ -284,147 +311,10 @@
                 ]"
               >
                 <i
-                  class="fas fa-money-bill mr-2 text-sm"
+                  class="fas fa-comment mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                LOAD
-              </a>
-            </router-link>
-          </li>
-        </ul>
-
-          <!-- FOUR POINT ONE NAVIGATION -->
-          <hr class="my-4 md:min-w-full" />
-          <h6
-            class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-          >
-            LOANS
-          </h6>
-          <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-            <li class="items-center">
-              <router-link
-                to="/superadmin/loan/request"
-                v-slot="{ href, navigate, isActive }"
-              >
-                <a
-                  :href="href"
-                  @click="navigate"
-                  class="text-xs uppercase py-3 font-bold block"
-                  :class="[
-                    isActive
-                      ? 'text-emerald-500 hover:text-emerald-600'
-                      : 'text-blueGray-700 hover:text-blueGray-500',
-                  ]"
-                >
-                  <i
-                    class="fas fa-landmark mr-2 text-sm"
-                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                  ></i>
-                  Request
-                </a>
-              </router-link>
-              <router-link
-                to="/superadmin/loan/payment"
-                v-slot="{ href, navigate, isActive }"
-              >
-                <a
-                  :href="href"
-                  @click="navigate"
-                  class="text-xs uppercase py-3 font-bold block"
-                  :class="[
-                    isActive
-                      ? 'text-emerald-500 hover:text-emerald-600'
-                      : 'text-blueGray-700 hover:text-blueGray-500',
-                  ]"
-                >
-                  <i
-                    class="fas fa-landmark mr-2 text-sm"
-                    :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                  ></i>
-                  Payments
-                </a>
-              </router-link>
-            </li>
-          </ul>
-
-        <!--#region FIFTH NAVIGATION-->
-        <hr class="my-4 md:min-w-full" />
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-
-          <li class="items-center">
-            <router-link
-              to="/superadmin/announcement"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-bullhorn mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                ANNOUNCEMENT
-              </a>
-            </router-link>
-          </li>
-        </ul>
-
-        <!--#region SIXTH NAVIGATION-->
-        <hr class="my-4 md:min-w-full" />
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
-          <h6
-            class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
-          >
-            FORUMS
-          </h6>
-          <li class="items-center">
-            <router-link
-              to="/superadmin/forum/postrequest"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-bullhorn mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                POST Request
-              </a>
-            </router-link>
-            <router-link
-              to="/superadmin/forum/forumlist"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-bullhorn mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                Topic Post
+                MESSAGES
               </a>
             </router-link>
           </li>
