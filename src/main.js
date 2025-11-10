@@ -34,6 +34,9 @@ import WorksSA from '@/views/superadmin/Works.vue'
 import WorksListSA from '@/views/superadmin/Workslist.vue'
 import WorkDeniedSA from '@/views/superadmin/Worksdenied.vue'
 
+import Jobdescriptionworks from "./views/superadmin/Jobdescriptionworks.vue";
+import Jobdescriptionworksdenied from "./views/superadmin/Jobdescriptionworksdenied.vue";
+
 //  #endregion
 
 //  #region USER
@@ -77,6 +80,25 @@ const routes = [
         path: "/superadmin/works/denied",
         component: WorkDeniedSA
       },
+      {
+        path: "/superadmin/works/description",
+        component: Jobdescriptionworks,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id,
+          path: route.query.path
+        })
+      },
+      
+      {
+        path: "/superadmin/deniedworks/description",
+        component: Jobdescriptionworksdenied,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id,
+          path: route.query.path
+        })
+      }
     ],
   },
   {

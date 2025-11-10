@@ -64,7 +64,7 @@
 
             <br/>
             
-            <Worksdeniedtable :loading="loading"  :jobitems="jobs"/>
+            <Worksdeniedtable :loading="loading"  :jobitems="jobs" @repending="UpdateStatusWork" @details="ViewDescription"/>
 
         </div>
     </div>
@@ -90,5 +90,109 @@ export default {
             jobs: []
         }
     },
+    methods: {
+        formatDate(isoString) {
+            const date = new Date(isoString)
+            return date.toLocaleString("en-US", {
+                year: "numeric",
+                month: "long",   // August
+                day: "numeric",  // 27
+            })
+        },
+        async GetData() {
+            this.loading = true;
+
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/showjobsdeniedsa?search=${this.search}&page=${this.currentpage}&limit=10`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            const responseData = await response.json();
+
+            if (response.status === 400) {
+                //  API HERE
+                this.$swal({
+                title: responseData.data,
+                icon: "error"
+                })
+
+                this.loading = false;
+                return;
+            }
+            else if (response.status == 401){
+                this.$swal({
+                title: "Authentication Failed! You will now be redirected to the login page",
+                icon: "error"
+                })
+
+                this.$router.push({path: "/"})
+                return;
+            }
+
+            this.jobs = responseData.data.jobs
+            console.log(this.jobs)
+            this.totalpage = responseData.data.totalpage
+            this.loading = false;
+        },
+        UpdateStatusWork(id, status){
+            console.log(id, status)
+            this.$swal({
+                title: `Are you sure you want to ${status} this job`,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/updatestatusjob`,{
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            credentials: "include",
+                            body: JSON.stringify({
+                                "jobid": id,
+                                "status": status
+                            })
+                        });
+
+                        if (!response.ok) {
+                            return this.$swal.showValidationMessage("You have successfully " + status + " this job posted");
+                        }
+                        return response.json();
+                        } catch (error) {
+                        this.$swal.showValidationMessage(`
+                            Request failed: ${error}
+                        `);
+                    }
+                },
+                allowOutsideClick: () => !this.$swal.isLoading()
+            }).then((tempresponse) => {
+
+                if (tempresponse.isConfirmed){
+
+                    this.GetData()
+
+                    return this.$swal({
+                        title: "You have successfully " + status + " this job posted",
+                        icon: "success",
+                        allowOutsideClick: false
+                    }) 
+                }
+            })
+        },
+        ViewDescription(id, title){
+            
+            this.$router.push({
+                path: "/superadmin/deniedworks/description",
+                query: { title: title, id: id, path: "DENIED WORK LIST" }
+            })
+        }
+    },
+    mounted() {
+        this.GetData()
+    }
 }
 </script>

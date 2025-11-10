@@ -64,8 +64,7 @@
 
             <br/>
             
-            <Workstable />
-
+            <Workstable :jobitems="jobs" :loading="loading" @approve="UpdateStatusWork" @deny="UpdateStatusWork"/>
         </div>
     </div>
 </template>
@@ -137,6 +136,52 @@ export default {
             this.totalpage = responseData.data.totalpage
             this.loading = false;
         },
+        UpdateStatusWork(id, status){
+            console.log(id, status)
+            this.$swal({
+                title: `Are you sure you want to ${status} this job`,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/updatestatusjob`,{
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            credentials: "include",
+                            body: JSON.stringify({
+                                "jobid": id,
+                                "status": status
+                            })
+                        });
+
+                        if (!response.ok) {
+                            return this.$swal.showValidationMessage("You have successfully " + status + " this job posted");
+                        }
+                        return response.json();
+                        } catch (error) {
+                        this.$swal.showValidationMessage(`
+                            Request failed: ${error}
+                        `);
+                    }
+                },
+                allowOutsideClick: () => !this.$swal.isLoading()
+            }).then((tempresponse) => {
+
+                if (tempresponse.isConfirmed){
+
+                    this.GetData()
+
+                    return this.$swal({
+                        title: "You have successfully " + status + " this job posted",
+                        icon: "success",
+                        allowOutsideClick: false
+                    }) 
+                }
+            })
+        }
     },
     mounted() {
         this.GetData()

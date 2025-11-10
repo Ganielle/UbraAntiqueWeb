@@ -144,8 +144,12 @@
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="$emit('view-image', items.itemimage)">
+              <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="$emit('details', items._id, items.title)">
                 View Details
+              </button>
+              
+              <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 100px;" type="button" @click="$emit('repending', items._id, 'Pending')">
+                Re-Pending
               </button>
             </td>
           </tr>
