@@ -4,7 +4,7 @@
         class="text-black text-xl uppercase lg:inline-block font-semibold pt-12"
         style="display: flex; "
         >
-        WORKS
+        WORKS / DENIED
         </div>
 
         <hr/>
@@ -64,7 +64,7 @@
 
             <br/>
             
-            <Workslisttable />
+            <Worksdeniedtable :loading="loading"  :jobitems="jobs"/>
 
         </div>
     </div>
@@ -73,31 +73,22 @@
 <script>
 import { ContentLoader } from 'vue-content-loader'
 
-import Workslisttable from '../../components/UbraAntique/Superadmin/Works/Workslisttable.vue'
+import Worksdeniedtable from '../../components/UbraAntique/Superadmin/Works/Worksdeniedtable.vue'
 
 export default {
     name: "user-my-jobs-page",
     components: {
         ContentLoader,
-        Workslisttable
+        Worksdeniedtable
     },
     data() {
         return {
             search: "",
             loading: false,
             currentpage: 0,
-            totalpage: 0
+            totalpage: 0,
+            jobs: []
         }
     },
-    methods: {
-        formatDate(isoString) {
-            const date = new Date(isoString)
-            return date.toLocaleString("en-US", {
-                year: "numeric",
-                month: "long",   // August
-                day: "numeric",  // 27
-            })
-        }
-    }
 }
 </script>

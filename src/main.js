@@ -32,26 +32,7 @@ import Dashboard from "@/views/superadmin/Dashboard.vue";
 
 import WorksSA from '@/views/superadmin/Works.vue'
 import WorksListSA from '@/views/superadmin/Workslist.vue'
-
-import ManageaccountFinancer from '@/views/superadmin/manageaccount/Financer.vue'
-import ManageaccountCustomerSupport from '@/views/superadmin/manageaccount/Customersupport.vue'
-import ManageaccountUser from '@/views/superadmin/manageaccount/User.vue'
-import Manageuseridverification from '@/views/superadmin/manageaccount/Useridverification.vue'
-
-import Inventorystore from '@/views/superadmin/inventory/Store.vue'
-import InventoryItem from '@/views/superadmin/inventory/Items.vue'
-
-import Livebidding from '@/views/superadmin/livebidding/Livebidding.vue'
-import Livebiddingcontrol from '@/views/superadmin/livebidding/Livebiddingcontrol.vue'
-
-import Announcement from '@/views/superadmin/announcement/announcement.vue'
-
-import Load from '@/views/superadmin/load/Load.vue'
-import Loan from '@/views/superadmin/loans/Request.vue'
-import LoanPayments from '@/views/superadmin/loans/Payments.vue'
-
-import Forums from '@/views/superadmin/forums/Forumlist.vue'
-import ForumPostRequest from '@/views/superadmin/forums/Forumrequestlist.vue'
+import WorkDeniedSA from '@/views/superadmin/Worksdenied.vue'
 
 //  #endregion
 
@@ -93,61 +74,9 @@ const routes = [
         component: WorksListSA,
       },
       {
-        path: "/superadmin/manageuser/financer",
-        component: ManageaccountFinancer
+        path: "/superadmin/works/denied",
+        component: WorkDeniedSA
       },
-      {
-        path: "/superadmin/manageuser/customersupport",
-        component: ManageaccountCustomerSupport
-      },
-      {
-        path: "/superadmin/manageuser/user",
-        component: ManageaccountUser
-      },
-      {
-        path: "/superadmin/manageuser/useridverification",
-        component: Manageuseridverification
-      },
-      {
-        path: "/superadmin/inventory/store",
-        component: Inventorystore
-      },
-      {
-        path: "/superadmin/inventory/items",
-        component: InventoryItem
-      },
-      {
-        path: "/superadmin/livebidding",
-        component: Livebidding
-      },
-      {
-        path: "/superadmin/livebidding/controls",
-        component: Livebiddingcontrol
-      },
-      {
-        path: "/superadmin/announcement",
-        component: Announcement
-      },
-      {
-        path: "/superadmin/load",
-        component: Load
-      },
-      {
-        path: "/superadmin/loan/request",
-        component: Loan
-      },
-      {
-        path: "/superadmin/loan/payment",
-        component: LoanPayments
-      },
-      {
-        path: "/superadmin/forum/postrequest",
-        component: ForumPostRequest
-      },
-      {
-        path: "/superadmin/forum/forumlist",
-        component: Forums
-      }
     ],
   },
   {

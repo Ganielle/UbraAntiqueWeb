@@ -10,7 +10,7 @@
             class="font-semibold text-lg"
             :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']"
           >
-            Works Approval List
+            Works Denied List
           </h3>
         </div>
       </div>
@@ -92,11 +92,6 @@
             <td
               class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ items.storename }}
-            </td>
-            <td
-              class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
               <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="$emit('view-image', items.itemimage)">
                 View Item Image
               </button>
@@ -109,15 +104,12 @@
 </template>
 
 <script>
-import htmlTruncate from 'html-truncate';
-import { ContentLoader } from 'vue-content-loader'
 export default {
   data() {
     return {
     };
   },
   components: {
-    ContentLoader,
   },
   props: {
     color: {
@@ -127,27 +119,10 @@ export default {
         return ["light", "dark"].indexOf(value) !== -1;
       },
     },
-    jobitems: {
+    inventoryitems: {
       type: Array,
       default: () => [], // Set an empty array as the default value
-    },
-    loading: {
-      type: Boolean,
-      default: () => true
     }
   },
-  methods: {
-    truncatedDescription(html) {
-      return htmlTruncate(html, 50); // truncates to ~200 characters safely
-    },
-    formatDate(isoString) {
-      const date = new Date(isoString)
-      return date.toLocaleString("en-US", {
-        year: "numeric",
-        month: "long",   // August
-        day: "numeric",  // 27
-      })
-    }
-  }
 };
 </script>

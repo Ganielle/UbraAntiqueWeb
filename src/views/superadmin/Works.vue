@@ -4,7 +4,7 @@
         class="text-black text-xl uppercase lg:inline-block font-semibold pt-12"
         style="display: flex; "
         >
-        WORKS
+        WORKS / APPROVAL
         </div>
 
         <hr/>
@@ -86,7 +86,8 @@ export default {
             search: "",
             loading: false,
             currentpage: 0,
-            totalpage: 0
+            totalpage: 0,
+            jobs: []
         }
     },
     methods: {
@@ -97,7 +98,48 @@ export default {
                 month: "long",   // August
                 day: "numeric",  // 27
             })
-        }
+        },
+        async GetData() {
+            this.loading = true;
+
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/showapprovelistsa?search=${this.search}&page=${this.currentpage}&limit=10`, {
+                method: 'GET',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include"
+            });
+
+            const responseData = await response.json();
+
+            if (response.status === 400) {
+                //  API HERE
+                this.$swal({
+                title: responseData.data,
+                icon: "error"
+                })
+
+                this.loading = false;
+                return;
+            }
+            else if (response.status == 401){
+                this.$swal({
+                title: "Authentication Failed! You will now be redirected to the login page",
+                icon: "error"
+                })
+
+                this.$router.push({path: "/"})
+                return;
+            }
+
+            this.jobs = responseData.data.jobs
+            console.log(this.jobs)
+            this.totalpage = responseData.data.totalpage
+            this.loading = false;
+        },
+    },
+    mounted() {
+        this.GetData()
     }
 }
 </script>

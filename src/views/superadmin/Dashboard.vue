@@ -20,7 +20,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="TOTAL WORK OFFERED"
-                :statTitle="`₱ ${totalincome + loan.loanincome}`"
+                :statTitle="`${totalincome + loan.loanincome}`"
                 statIconName="fas fa-briefcase"
                 statIconColor="bg-emerald-500"
               />
@@ -28,7 +28,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="TOTAL FORUM DISCUSSIONS"
-                statTitle="₱0.00"
+                statTitle="0.00"
                 statIconName="fas fa-comments"
                 statIconColor="bg-red-500"
               />
@@ -36,7 +36,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="APPROVED WORK POSTED"
-                :statTitle="`₱ ${loan.loanincome}`"
+                :statTitle="`${loan.loanincome}`"
                 statIconName="fas fa-check-to-slot"
                 statIconColor="bg-pink-500"
               />
@@ -44,7 +44,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="REJECTED WORK POSTED"
-                :statTitle="`₱ ${loan.loanincome}`"
+                :statTitle="`${loan.loanincome}`"
                 statIconName="fas fa-xmark"
                 statIconColor="bg-orange-500"
               />
