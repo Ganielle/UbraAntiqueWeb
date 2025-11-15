@@ -88,7 +88,7 @@
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
             <router-link
-              to="/superadmin/manageuser/admin"
+              to="/superadmin/management/admin"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -134,7 +134,7 @@
             </router-link>
           </li>
 
-          <li class="items-center">
+          <!-- <li class="items-center">
             <router-link
               to="/superadmin/manageuser/user"
               v-slot="{ href, navigate, isActive }"
@@ -156,7 +156,7 @@
                 EMPLOYER
               </a>
             </router-link>
-          </li>
+          </li> -->
 
           <!-- <li class="items-center">
             <router-link
@@ -183,7 +183,7 @@
           </li> -->
 
           
-          <li class="items-center">
+          <!-- <li class="items-center">
             <router-link
               to="/superadmin/manageuser/useridverification"
               v-slot="{ href, navigate, isActive }"
@@ -205,7 +205,7 @@
                 EMPLOYER Verification
               </a>
             </router-link>
-          </li>
+          </li> -->
 
         </ul>
         

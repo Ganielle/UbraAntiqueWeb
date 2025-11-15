@@ -64,7 +64,7 @@
 
             <br/>
             
-            <Workstable :jobitems="jobs" :loading="loading" @approve="UpdateStatusWork" @deny="UpdateStatusWork"/>
+            <Workstable :jobitems="jobs" :loading="loading" @approve="UpdateStatusWork" @deny="UpdateStatusWork" @view-details="ViewDescription"/>
         </div>
     </div>
 </template>
@@ -180,6 +180,13 @@ export default {
                         allowOutsideClick: false
                     }) 
                 }
+            })
+        },
+        ViewDescription(id, title){
+            
+            this.$router.push({
+                path: "/superadmin/deniedworks/description",
+                query: { title: title, id: id, path: "APPROVAL WORK LIST" }
             })
         }
     },

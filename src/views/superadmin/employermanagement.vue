@@ -4,7 +4,7 @@
         class="text-black text-xl uppercase lg:inline-block font-semibold pt-12"
         style="display: flex; "
         >
-        MANAGE ACCOUNTS / ADMIN
+        MANAGE ACCOUNTS / EMPLOYER
         </div>
 
         <hr/>
@@ -27,12 +27,6 @@
                 </div>
                 </div>
             </div>
-        </div>
-
-        <div class="py-5">
-            <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 160px;" type="button" @click="$emit('view-details', items._id, items.ownerDetails.firstname)">
-                Create Admin
-            </button>
         </div>
 
         <br/>
@@ -70,7 +64,7 @@
 
             <br/>
             
-            <Adminlisttable :useritems="userlist" :loading="loading" @view-details="ViewDescription"/>
+            <Userlisttable :useritems="userlist" :loading="loading" @view-details="ViewDescription"/>
 
         </div>
     </div>
@@ -79,13 +73,13 @@
 <script>
 import { ContentLoader } from 'vue-content-loader'
 
-import Adminlisttable from '../../components/UbraAntique/Superadmin/Usermanagement/Adminlist.vue'
+import Userlisttable from '../../components/UbraAntique/Superadmin/Usermanagement/Userlist.vue'
 
 export default {
     name: "user-my-jobs-page",
     components: {
         ContentLoader,
-        Adminlisttable
+        Userlisttable
     },
     data() {
         return {
@@ -108,7 +102,7 @@ export default {
         async GetData() {
             this.loading = true;
 
-            const response = await fetch(`${process.env.VUE_APP_API_URL}/staffusers/getadminlist?search=${this.search}&page=${this.currentpage}&limit=10`, {
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/users/getuserlist?search=${this.search}&page=${this.currentpage}&limit=10`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json"
@@ -142,6 +136,12 @@ export default {
             console.log(this.userlist)
             this.totalpage = responseData.data.totalpage
             this.loading = false;
+        },
+        ViewDescription(id, path){
+            this.$router.push({
+                path: "/superadmin/management/user/profile",
+                query: { id: id, path: path }
+            })
         }
     },
     mounted() {

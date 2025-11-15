@@ -10,11 +10,12 @@
             class="font-semibold text-lg"
             :class="[color === 'light' ? 'text-blueGray-700' : 'text-white']"
           >
-            Works Approval List
+            Admin List
           </h3>
         </div>
       </div>
     </div>
+
     <div v-if="loading">
         <div style="width: 100%; height: 200px; background-color: white; border-radius: 5px;">
             <ContentLoader viewBox="0 0 250 110">
@@ -45,7 +46,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Work Name
+              Username
             </th>
             <th
               class="px-6 align-middle text-center border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -55,7 +56,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Posted by
+              Full name
             </th>
             <th
               class="px-6 align-middle text-center border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -65,7 +66,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Description
+              Email
             </th>
             <th
               class="px-6 align-middle text-center border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -75,27 +76,7 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
-              Posted Date
-            </th>
-            <th
-              class="px-6 align-middle text-center border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-              :class="[
-                color === 'light'
-                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-              ]"
-            >
-              Applicants
-            </th>
-            <th
-              class="px-6 align-middle text-center border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
-              :class="[
-                color === 'light'
-                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
-                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
-              ]"
-            >
-              Worker Status
+              Date Created
             </th>
             <th
               class="px-6 align-middle text-center border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
@@ -110,11 +91,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="items in jobitems" :key="items._id">
+          <tr v-for="items in useritems" :key="items._id">
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ items.title }}
+              {{ items.username }}
             </td>
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
@@ -124,34 +105,18 @@
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ truncatedDescription(items.description) }}
+              {{ items.ownerDetails.email }}
             </td>
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ formatDate(items.updatedAt) }}
+              {{ formatDate(items.createdAt) }}
             </td>
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              {{ items.applicantCount }}
-            </td>
-            <td
-              class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              {{ items.status }}
-            </td>
-            <td
-              class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-            >
-              <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('view-details', items._id, items.title)">
-                View Details
-              </button>
-              <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 100px;" type="button" @click="$emit('approve', items._id, 'Open')">
-                Approve
-              </button>
-              <button class="bg-red-500 text-white active:bg-red-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 100px;" type="button" @click="$emit('deny', items._id, 'Deny')">
-                Deny
+              <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('edit', items._id, items.username)">
+                Edit
               </button>
             </td>
           </tr>
@@ -180,7 +145,7 @@ export default {
         return ["light", "dark"].indexOf(value) !== -1;
       },
     },
-    jobitems: {
+    useritems: {
       type: Array,
       default: () => [], // Set an empty array as the default value
     },

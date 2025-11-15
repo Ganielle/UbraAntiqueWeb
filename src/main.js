@@ -49,6 +49,7 @@ import UserMessaging from '@/views/user/employee/Message.vue'
 import UserMyJobDescription from '@/views/user/employee/Myjobdescription.vue'
 import Usermanagement from "./views/superadmin/usermanagement.vue";
 import Usermanagementprofile from "./views/superadmin/Usermanagementprofile.vue";
+import Adminmanageaccount from "./views/superadmin/Adminmanageaccount.vue";
 
 //  #endregion
 
@@ -111,7 +112,11 @@ const routes = [
           id: route.query.id,
           path: route.query.path
         })
-      }
+      },
+      {
+        path: "/superadmin/management/admin",
+        component: Adminmanageaccount
+      },
     ],
   },
   {
