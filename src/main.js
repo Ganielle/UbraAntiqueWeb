@@ -47,6 +47,7 @@ import UserJobDescription from '@/views/user/employee/Jobdescription.vue'
 import UserMyJobs from '@/views/user/employee/Myjobs.vue'
 import UserMessaging from '@/views/user/employee/Message.vue'
 import UserMyJobDescription from '@/views/user/employee/Myjobdescription.vue'
+import Usermanagement from "./views/superadmin/usermanagement.vue";
 
 //  #endregion
 
@@ -89,7 +90,6 @@ const routes = [
           path: route.query.path
         })
       },
-      
       {
         path: "/superadmin/deniedworks/description",
         component: Jobdescriptionworksdenied,
@@ -98,6 +98,10 @@ const routes = [
           id: route.query.id,
           path: route.query.path
         })
+      },
+      {
+        path: "/superadmin/management/user",
+        component: Usermanagement
       }
     ],
   },

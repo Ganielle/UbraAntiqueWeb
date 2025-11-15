@@ -112,7 +112,7 @@
 
           <li class="items-center">
             <router-link
-              to="/superadmin/manageuser/user"
+              to="/superadmin/management/user"
               v-slot="{ href, navigate, isActive }"
             >
               <a
