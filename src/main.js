@@ -48,6 +48,7 @@ import UserMyJobs from '@/views/user/employee/Myjobs.vue'
 import UserMessaging from '@/views/user/employee/Message.vue'
 import UserMyJobDescription from '@/views/user/employee/Myjobdescription.vue'
 import Usermanagement from "./views/superadmin/usermanagement.vue";
+import Usermanagementprofile from "./views/superadmin/Usermanagementprofile.vue";
 
 //  #endregion
 
@@ -102,6 +103,14 @@ const routes = [
       {
         path: "/superadmin/management/user",
         component: Usermanagement
+      },
+      {
+        path: "/superadmin/management/user/profile",
+        component: Usermanagementprofile,
+        props: route => ({
+          id: route.query.id,
+          path: route.query.path
+        })
       }
     ],
   },

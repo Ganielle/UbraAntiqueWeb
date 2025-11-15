@@ -13,7 +13,7 @@
             <div class="flex flex-wrap">
                 <div class="w-full w-1/2 px-4 lg:w-9/12">
                 <div class="block mb-3 pt-0">
-                    <input type="text" placeholder="Search Job Title" class="px-3 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base shadow outline-none focus:outline-none focus:shadow-outline w-full" v-model="search"/>
+                    <input type="text" placeholder="Search User (Username)" class="px-3 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base shadow outline-none focus:outline-none focus:shadow-outline w-full" v-model="search"/>
                 </div>
                 </div>
                 <div class="w-full px-4 lg:w-3/12">
@@ -64,7 +64,7 @@
 
             <br/>
             
-            <Workslisttable :loading="loading" :jobitems="jobs" @repending="UpdateStatusWork" @details="ViewDescription"/>
+            <Userlisttable :useritems="userlist" :loading="loading" @view-details="ViewDescription"/>
 
         </div>
     </div>
@@ -73,13 +73,13 @@
 <script>
 import { ContentLoader } from 'vue-content-loader'
 
-import Workslisttable from '../../components/UbraAntique/Superadmin/Works/Workslisttable.vue'
+import Userlisttable from '../../components/UbraAntique/Superadmin/Usermanagement/Userlist.vue'
 
 export default {
     name: "user-my-jobs-page",
     components: {
         ContentLoader,
-        Workslisttable
+        Userlisttable
     },
     data() {
         return {
@@ -87,7 +87,7 @@ export default {
             loading: false,
             currentpage: 0,
             totalpage: 0,
-            jobs: []
+            userlist: []
         }
     },
     methods: {
@@ -102,7 +102,7 @@ export default {
         async GetData() {
             this.loading = true;
 
-            const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/showjobssa?search=${this.search}&page=${this.currentpage}&limit=10`, {
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/users/getuserlist?search=${this.search}&page=${this.currentpage}&limit=10`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json"
@@ -132,62 +132,15 @@ export default {
                 return;
             }
 
-            this.jobs = responseData.data.jobs
-            console.log(this.jobs)
+            this.userlist = responseData.data.userlist
+            console.log(this.userlist)
             this.totalpage = responseData.data.totalpage
             this.loading = false;
         },
-        UpdateStatusWork(id, status){
-            console.log(id, status)
-            this.$swal({
-                title: `Are you sure you want to ${status} this job`,
-                showCancelButton: true,
-                confirmButtonText: "Yes",
-                showLoaderOnConfirm: true,
-                preConfirm: async () => {
-                    try {
-                        const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/updatestatusjob`,{
-                            method: 'POST',
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            credentials: "include",
-                            body: JSON.stringify({
-                                "jobid": id,
-                                "status": status
-                            })
-                        });
-
-                        if (!response.ok) {
-                            return this.$swal.showValidationMessage("You have successfully " + status + " this job posted");
-                        }
-                        return response.json();
-                        } catch (error) {
-                        this.$swal.showValidationMessage(`
-                            Request failed: ${error}
-                        `);
-                    }
-                },
-                allowOutsideClick: () => !this.$swal.isLoading()
-            }).then((tempresponse) => {
-
-                if (tempresponse.isConfirmed){
-
-                    this.GetData()
-
-                    return this.$swal({
-                        title: "You have successfully " + status + " this job posted",
-                        icon: "success",
-                        allowOutsideClick: false
-                    }) 
-                }
-            })
-        },
-        ViewDescription(id, title){
-            
+        ViewDescription(id, path){
             this.$router.push({
-                path: "/superadmin/works/description",
-                query: { title: title, id: id, path: "WORK LIST" }
+                path: "/superadmin/management/user/profile",
+                query: { id: id, path: path }
             })
         }
     },
