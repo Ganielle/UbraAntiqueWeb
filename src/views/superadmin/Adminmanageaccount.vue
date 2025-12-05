@@ -30,7 +30,7 @@
         </div>
 
         <div class="py-5">
-            <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 160px;" type="button" @click="$emit('view-details', items._id, items.ownerDetails.firstname)">
+            <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 160px;" type="button" @click="CreateEmployer">
                 Create Admin
             </button>
         </div>
@@ -70,7 +70,7 @@
 
             <br/>
             
-            <Adminlisttable :useritems="userlist" :loading="loading" @view-details="ViewDescription"/>
+            <Adminlisttable :useritems="userlist" :loading="loading" @edit="EditEmployer"/>
 
         </div>
     </div>
@@ -138,10 +138,132 @@ export default {
                 return;
             }
 
-            this.userlist = responseData.data.userlist
-            console.log(this.userlist)
+            this.userlist = responseData.data.adminlist
             this.totalpage = responseData.data.totalpage
             this.loading = false;
+        },
+        CreateEmployer(){
+            this.$swal({
+                title: "CREATE ADMIN",
+                html: `
+                    <center>
+                    <input type="text" id="username" placeholder="Enter username" class="swal2-input" style="display: flex; width: 70%;" />
+                    <input type="text" id="password" placeholder="Enter password" class="swal2-input" style="display: flex; width: 70%;" />
+                    <input type="text" id="auth" placeholder="admin" class="swal2-input" style="display: flex; width: 70%;" disabled/>
+                    <center/>
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "Submit",
+                showLoaderOnConfirm: true,
+
+                preConfirm: async () => {
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    const auth = "admin";
+
+                    if (username == ""){
+                        return this.$swal.showValidationMessage(`Please input username first!`);
+                    }
+
+                    else if (password == ""){
+                        return this.$swal.showValidationMessage(`Please input password first!`);
+                    }
+
+                    const response = await fetch(`${process.env.VUE_APP_API_URL}/staffusers/createstaffuser`,{
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({
+                            username: username,
+                            password: password,
+                            auth: auth
+                        })
+                    });
+
+                    if (!response.ok) {
+                        return this.$swal.showValidationMessage(`
+                            ${response.data}
+                        `);
+                    }
+                    return response.json();
+                },
+                allowOutsideClick: () => !this.$swal.isLoading()
+            }).then((tempresponse) => {
+                if (tempresponse.isConfirmed){
+
+                    this.GetData()
+
+                    return this.$swal({
+                        title: "Successfully edited!",
+                        icon: "success",
+                        allowOutsideClick: false
+                    })
+                }
+            })
+        },
+        EditEmployer(id, username){
+            this.$swal({
+                title: "CREATE ADMIN",
+                html: `
+                    <center>
+                    <input type="text" id="username" placeholder="Enter username" value="${username}"" class="swal2-input" style="display: flex; width: 70%;" />
+                    <input type="text" id="password" placeholder="Enter password" class="swal2-input" style="display: flex; width: 70%;" />
+                    <input type="text" id="auth" placeholder="admin" class="swal2-input" style="display: flex; width: 70%;" disabled/>
+                    <center/>
+                `,
+                focusConfirm: false,
+                showCancelButton: true,
+                confirmButtonText: "Submit",
+                showLoaderOnConfirm: true,
+
+                preConfirm: async () => {
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+
+                    if (username == ""){
+                        return this.$swal.showValidationMessage(`Please input username first!`);
+                    }
+
+                    else if (password == ""){
+                        return this.$swal.showValidationMessage(`Please input password first!`);
+                    }
+
+                    const response = await fetch(`${process.env.VUE_APP_API_URL}/staffusers/editstaffuser`,{
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        credentials: "include",
+                        body: JSON.stringify({
+                            username: username,
+                            password: password,
+                            id: id
+                        })
+                    });
+
+                    if (!response.ok) {
+                        return this.$swal.showValidationMessage(`
+                            ${response.data}
+                        `);
+                    }
+                    return response.json();
+                },
+                allowOutsideClick: () => !this.$swal.isLoading()
+            }).then((tempresponse) => {
+                if (tempresponse.isConfirmed){
+
+                    this.GetData()
+
+                    return this.$swal({
+                        title: "Successfully edited!",
+                        icon: "success",
+                        allowOutsideClick: false
+                    })
+                }
+            })
         }
     },
     mounted() {

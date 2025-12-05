@@ -142,7 +142,7 @@ export default {
                 path: "/superadmin/management/user/profile",
                 query: { id: id, path: path }
             })
-        }
+        },
     },
     mounted() {
         this.GetData()
