@@ -32,25 +32,28 @@
           <p style="font-weight: bold; margin: 0;">
               Posted by: {{ name.toUpperCase() }}
           </p>
+          <p style="font-weight: bold; margin: 0;">Location: {{ job.location }}</p>
           <p style="font-weight: bold; margin: 0;">Created at: {{ formatDate(job.createdAt) }}</p>
+          <p style="font-weight: bold; margin: 0;">Job status: {{ job.status }}</p>
       </div>
       <br/>
       <hr>
-      <br/>
-      <div class="px-4 mx-auto">
+      <div v-if="!showModal" class="px-4 mx-auto">
+        
+        <div v-if="job.status == 'Open'">
+          <br/>
+          <button class="text-white" style="width: 100px; margin-left: 20px; background-color: #f69d0b; height: 35px; border: none; border-radius: 4px; cursor: pointer;" @click="EditWorkDescription">
+            <a>
+              <i class="fa-solid fa-pen-to-square mr-2 text-sm"></i>
+              EDIT
+            </a>
+          </button>
+          <br/>
+        </div>
+
         <div class="flex flex-wrap">
           <div class="w-full w-1/2 px-4 lg:w-8/12">
             <div class="block my-4 p-3" style="background-color: white; border-radius: 5px;">
-
-              <button class="text-white" style="width: 100px; background-color: #f69d0b; height: 35px; border: none; border-radius: 4px; cursor: pointer;">
-                <a>
-                  <i class="fa-solid fa-pen-to-square mr-2 text-sm"></i>
-                  EDIT
-                </a>
-              </button>
-
-              <br/>
-
               <div v-html="job.description ? job.description.replace(/\n/g, '<br>') : ''" style="margin-left: 20px; padding-top: 20px;"></div>
             </div>
           </div>
@@ -58,12 +61,6 @@
             <div class="block my-4 p-3">
               <div style="background-color: white; border-radius: 5px; padding-bottom: 10px;">
                 <div style=" margin-left: 20px; padding-top: 20px; padding-bottom: 20px;">
-                  <button class="text-white" style="width: 100px; background-color: #f69d0b; height: 35px; border: none; border-radius: 4px; cursor: pointer;">
-                    <a>
-                      <i class="fa-solid fa-pen-to-square mr-2 text-sm"></i>
-                      EDIT
-                    </a>
-                  </button>
                   <br/><br/>
                   <p style="font-size: 1.2rem; font-weight: 600;">SALARY:</p>
                   <p style="font-size: 1.3rem; font-weight: bolder;">₱{{ job.salary }}</p>
@@ -76,7 +73,7 @@
                   <p style="font-size: 1.2rem; font-weight: 600;">NUMBER OF APPLICANTS:</p>
                   <p style="font-size: 1.2rem; word-wrap: break-word; font-weight: bolder;">{{ job.applicantCount }} Applicant(s)</p>
                   <br/>
-                  <button class="text-white" style="width: 100px; background-color: #0ea6e9; height: 35px; border: none; border-radius: 4px; cursor: pointer;">
+                  <button class="text-white" style="width: 100px; background-color: #0ea6e9; height: 35px; border: none; border-radius: 4px; cursor: pointer;" @click="toggleModal">
                     <a>
                       VIEW LIST
                     </a>
@@ -87,11 +84,13 @@
           </div>
         </div>
       </div>
+      <Viewlistmodal v-else @close="toggleModal" :employees="job.applicantDetails" :jobstatus="job.status" @selectemployee="UpdateStatusWork"/>
     </div>
   </div>
 </template>
 <script>
 import htmlTruncate from 'html-truncate';
+import Viewlistmodal from '../../../components/UbraAntique/Superadmin/Employerjobdetails/Viewlistmodal.vue';
 import { ContentLoader } from 'vue-content-loader'
 
 export default {
@@ -101,13 +100,15 @@ export default {
     id: String,
   },
   components: {
-    ContentLoader
+    ContentLoader,
+    Viewlistmodal
   },
   data() {
     return {
       loading: false,
       job: {},
       name: "",
+      showModal: false
     }
   },
   methods: {
@@ -204,6 +205,150 @@ export default {
         year: "numeric",
         month: "long",   // August
         day: "numeric",  // 27
+      })
+    },
+    toggleModal(){
+      this.showModal = !this.showModal
+    },
+    UpdateStatusWork(id, name){
+      this.$swal({
+          title: `Are you sure you want to select ${name} for this job?`,
+          showCancelButton: true,
+          confirmButtonText: "Yes",
+          showLoaderOnConfirm: true,
+          preConfirm: async () => {
+              try {
+                  const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/selectemployeeforjob`,{
+                      method: 'POST',
+                      headers: {
+                          "Content-Type": "application/json"
+                      },
+                      credentials: "include",
+                      body: JSON.stringify({
+                          "employeeid": id,
+                          "jobid": this.job._id
+                      })
+                  });
+
+                  if (!response.ok) {
+                      return this.$swal.showValidationMessage("There's a problem with the server! Please contact customer support for more details");
+                  }
+
+                  return response.json();
+                  } catch (error) {
+                  this.$swal.showValidationMessage(`
+                      Request failed: ${error}
+                  `);
+              }
+          },
+          allowOutsideClick: () => !this.$swal.isLoading()
+      }).then((tempresponse) => {
+
+          if (tempresponse.isConfirmed){
+
+              this.GetData()
+
+              return this.$swal({
+                  title: "You have successfully selected" + name + " for this job posted",
+                  icon: "success",
+                  allowOutsideClick: false
+              }) 
+          }
+      })
+    },
+    EditWorkDescription(){
+      this.$swal({
+          title: "POST YOUR JOB",
+          html: `
+              <center>
+              <input type="text" id="titleInput" placeholder="Job title" class="swal2-input" style="display: flex; width: 70%;"/>
+              <textarea autocapitalize="off" id="descInput" placeholder="Job Description" class="swal2-textarea" style="display: flex;  width: 70%;"></textarea>
+              <center/>
+              <input type="number" id="salaryInput" placeholder="Salary" class="swal2-input" style="display: flex; width: 70%; height: 2.6rem"/>
+              <label for="cars" style="">Choose a location:</label>
+              <br/>
+              <select name="location" id="location" style="display: flex; width: 70%;">
+                <option value="Pandan">Pandan</option>
+                <option value="Libertad">Libertad</option>
+                <option value="Laua-an">Laua-an</option>
+                <option value="Valderrama">Valderrama</option>
+                <option value="Sibalom">Sibalom</option>
+                <option value="San Remigio">San Remigio</option>
+                <option value="Tibiao">Tibiao</option>
+                <option value="Culasi">Culasi</option>
+                <option value="Bugasong">Bugasong</option>
+                <option value="Patnongon">Patnongon</option>
+                <option value="Belison">Belison</option>
+                <option value="Sebaste">Sebaste</option>
+                <option value="San Jose de Buenavista">San Jose de Buenavista</option>
+                <option value="Hamtic">Hamtic</option>
+                <option value="Tobias Fornier">Tobias Fornier</option>
+                <option value="Anini-y">Anini-y</option>
+                <option value="Caluya">Caluya</option>
+              </select>
+          `,
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: "Submit",
+          showLoaderOnConfirm: true,
+          didOpen: () => {
+            document.getElementById("titleInput").value = this.job.title;
+            document.getElementById("descInput").value = this.job.description;
+            document.getElementById("salaryInput").value = this.job.salary;
+            document.getElementById("location").value = this.job.location;
+          },
+          preConfirm: async () => {
+              const title = document.getElementById('titleInput').value;
+              const description = document.getElementById('descInput').value;
+              const salary = document.getElementById('salaryInput').value.trim();
+              const location = document.getElementById('location').value;
+
+              if (title == ""){
+                return this.$swal.showValidationMessage(`Please input your job title first!`);
+              }
+
+              else if (description == ""){
+                return this.$swal.showValidationMessage(`Please input your job description first!`);
+              }
+
+              else if (isNaN(salary)){
+                return this.$swal.showValidationMessage(`Please numbers on the salary only!`);
+              }
+
+              const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/editjob`,{
+                  method: 'POST',
+                  headers: {
+                  'Content-Type': 'application/json',
+                  },
+                  credentials: "include",
+                  body: JSON.stringify({
+                    jobid: this.job._id,
+                    title: title,
+                    description: description,
+                    salary: salary.toLocaleString(),
+                    location: location
+                  })
+              });
+
+              if (!response.ok) {
+                  return this.$swal.showValidationMessage(`
+                      ${response.data}
+                  `);
+              }
+              return response.json();
+          },
+          allowOutsideClick: () => !this.$swal.isLoading()
+      }).then((tempresponse) => {
+          if (tempresponse.isConfirmed){
+
+              this.GetData()
+
+              return this.$swal({
+                  title: "Successfully edited!",
+                  icon: "success",
+                  allowOutsideClick: false
+              })
+          }
       })
     }
   },

@@ -70,7 +70,7 @@
 
             <br/>
             
-            <Adminlisttable :useritems="userlist" :loading="loading" @edit="EditEmployer"/>
+            <Adminlisttable :useritems="userlist" :loading="loading" @edit="EditEmployer" @ban="Banuser"/>
 
         </div>
     </div>
@@ -108,7 +108,7 @@ export default {
         async GetData() {
             this.loading = true;
 
-            const response = await fetch(`${process.env.VUE_APP_API_URL}/staffusers/getadminlist?search=${this.search}&page=${this.currentpage}&limit=10`, {
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/staffusers/getadminlist?search=${this.search}&page=${this.currentpage}&status=Active&limit=10`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json"
@@ -262,6 +262,51 @@ export default {
                         icon: "success",
                         allowOutsideClick: false
                     })
+                }
+            })
+        },
+        Banuser(id, name){
+             this.$swal({
+                title: `Are you sure you want to Ban ${name}`,
+                showCancelButton: true,
+                confirmButtonText: "Yes",
+                showLoaderOnConfirm: true,
+                preConfirm: async () => {
+                    try {
+                        const response = await fetch(`${process.env.VUE_APP_API_URL}/staffusers/editstatusstaffuser`,{
+                            method: 'POST',
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            credentials: "include",
+                            body: JSON.stringify({
+                                "id": id,
+                                "status": "Banned"
+                            })
+                        });
+
+                        if (!response.ok) {
+                            return this.$swal.showValidationMessage("There's a problem with the server. Please contact customer support");
+                        }
+                        return response.json();
+                        } catch (error) {
+                        this.$swal.showValidationMessage(`
+                            Request failed: ${error}
+                        `);
+                    }
+                },
+                allowOutsideClick: () => !this.$swal.isLoading()
+            }).then((tempresponse) => {
+
+                if (tempresponse.isConfirmed){
+
+                    this.GetData()
+
+                    return this.$swal({
+                        title: `You have successfully Ban ${name}!`,
+                        icon: "success",
+                        allowOutsideClick: false
+                    }) 
                 }
             })
         }

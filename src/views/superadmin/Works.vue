@@ -137,7 +137,58 @@ export default {
             this.loading = false;
         },
         UpdateStatusWork(id, status){
-            console.log(id, status)
+            if (status == "Deny"){
+                this.$swal({
+                    title: `Are you sure you want to ${status} this job`,
+                    html: `
+                        <center>
+                        <textarea autocapitalize="off" id="denyreason" placeholder="Deny Reason" class="swal2-textarea" style="display: flex;  width: 70%;"></textarea>
+                        <center/>
+                    `,
+                    showCancelButton: true,
+                    confirmButtonText: "Yes",
+                    showLoaderOnConfirm: true,
+                    preConfirm: async () => {
+                        try {
+
+                            const denyreason = document.getElementById("denyreason").value
+
+                            const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/updatestatusjob`,{
+                                method: 'POST',
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                credentials: "include",
+                                body: JSON.stringify({
+                                    "jobid": id,
+                                    "status": status,
+                                    "denyreason": denyreason
+                                })
+                            });
+
+                            return response.json();
+                            } catch (error) {
+                            this.$swal.showValidationMessage(`
+                                Request failed: ${error}
+                            `);
+                        }
+                    },
+                    allowOutsideClick: () => !this.$swal.isLoading()
+                }).then((tempresponse) => {
+
+                    if (tempresponse.isConfirmed){
+
+                        this.GetData()
+
+                        return this.$swal({
+                            title: "You have successfully " + status + " this job posted",
+                            icon: "success",
+                            allowOutsideClick: false
+                        }) 
+                    }
+                })
+                return;
+            }
             this.$swal({
                 title: `Are you sure you want to ${status} this job`,
                 showCancelButton: true,
@@ -153,7 +204,8 @@ export default {
                             credentials: "include",
                             body: JSON.stringify({
                                 "jobid": id,
-                                "status": status
+                                "status": status,
+                                "denyreason": ""
                             })
                         });
 

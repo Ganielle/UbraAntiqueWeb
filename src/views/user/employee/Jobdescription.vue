@@ -33,6 +33,7 @@
               Posted by: {{ name.toUpperCase() }}
           </p>
           <p style="font-weight: bold; margin: 0;">Created at: {{ formatDate(job.createdAt) }}</p>
+          <p style="font-weight: bold; margin: 0;">Location: {{ job.location == null ? 'No location' : job.location  }}</p>
       </div>
       <br/>
       <hr>

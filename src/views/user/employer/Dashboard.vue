@@ -63,27 +63,40 @@
       <div v-else>
 
         <div class="flex flex-wrap gap-2 items-stretch">
-          <div v-for="job in jobs" :key="job._id" class="w-full sm:w-10/12 md:w-7/12 lg:w-6/12 xl:w-4/12 min-h-[100px] p-5 relative flex flex-col">
-            <div class="bg-white border border-black rounded p-5">
-              <p class="text-lg font-bold mb-3">{{ job.title }}</p>
+          <div 
+            v-for="job in jobs" 
+            :key="job._id"
+            class="w-full sm:w-10/12 md:w-7/12 lg:w-6/12 xl:w-4/12 min-h-[100px] p-5 relative flex flex-col"
+          >
+            <div class="bg-white border border-black rounded p-5" style="height: 100%;">
+              <p class="text-lg font-bold mb-3">
+                {{ job.title }} ({{ job.location == null ? 'No location' : job.location }})
+              </p>
 
-              <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 0.8rem;">
-                <p style="font-weight: bold; margin: 0;">
-                  Posted by:<br/>{{ job.ownerDetails.firstname.toUpperCase() }} {{ job.ownerDetails.lastname.toUpperCase() }}
+              <div class="text-xs font-bold mb-3">
+                <p>Posted by: {{ job.ownerDetails.firstname.toUpperCase() }} {{ job.ownerDetails.lastname.toUpperCase() }}</p>
+                <p>Status:
+                  <span v-if="job.status === 'Deny'" style="color: red;">Deny</span>
+                  <span v-else-if="job.status == 'Open'" style="color: green;">Open</span>
+                  <span v-else style="color: orangered;">{{ job.status }}</span>
                 </p>
-                <p style="font-weight: bold; margin: 0;">Created at:<br/>{{ formatDate(job.createdAt) }}</p>
-                <div style="font-weight: bold; margin: 0; margin-right: 20px;">
-                  <div style="position: relative;">
-                    <p style="font-weight: bold; margin: 0;">Status:</p> <p :style="{
-                      color: job.status === 'Pending' ? 'blue' : job.status === 'Open' ? 'green' : job.status === 'Declined' ? 'red' : 'black'
-                    }" style="font-weight: bold; margin: 0;">{{ job.status }}</p>
-                  </div>
-                </div>
+                <p>Created at: {{ formatDate(job.createdAt) }}</p>
               </div>
-              
-              <div v-html="truncatedDescription(job.description.replace(/\n/g, '<br>'))" style="font-size: 1rem; margin-left: 20px; padding-top: 20px;"></div>
-              <br/><br/>
+
+              <div 
+                v-html="truncatedDescription(job.description.replace(/\n/g, '<br>'))" 
+                class="text-base mb-10 flex-grow"
+              ></div>
+
+              <br/><br/><br/>
+
               <div style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px; margin-bottom: 20px;">
+                <button v-if="job.status=='Deny'"
+                    style="padding: 6px 12px; background-color: purple; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                    @click="ViewReason(job.denyreason)"
+                    >
+                    View Deny Reason
+                </button>
                 <button
                     style="padding: 6px 12px; background-color: #22c55e; color: white; border: none; border-radius: 4px; cursor: pointer;"
                     @click="() =>{
@@ -99,8 +112,6 @@
             </div>
           </div>
         </div>
-        
-
           
         <div style="display: flex; gap: 10px; justify-content: center; align-items: center;">
             <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="PreviousePageRequest" :disabled="loading || totalpage <= 0">
@@ -109,7 +120,7 @@
 
             <p style="font-size: 1.4rem; font-weight: bold;">{{ currentpage  + 1 }} / {{ totalpage }}</p>
 
-            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage">
+            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage - 1">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
@@ -182,6 +193,27 @@ export default {
               <textarea autocapitalize="off" id="descInput" placeholder="Job Description" class="swal2-textarea" style="display: flex;  width: 70%;"></textarea>
               <center/>
               <input type="number" id="salaryInput" placeholder="Salary" class="swal2-input" style="display: flex; width: 70%; height: 2.6rem"/>
+              <label for="cars" style="">Choose a location:</label>
+              <br/>
+              <select name="location" id="location" style="display: flex; width: 70%;">
+                <option value="Pandan">Pandan</option>
+                <option value="Libertad">Libertad</option>
+                <option value="Laua-an">Laua-an</option>
+                <option value="Valderrama">Valderrama</option>
+                <option value="Sibalom">Sibalom</option>
+                <option value="San Remigio">San Remigio</option>
+                <option value="Tibiao">Tibiao</option>
+                <option value="Culasi">Culasi</option>
+                <option value="Bugasong">Bugasong</option>
+                <option value="Patnongon">Patnongon</option>
+                <option value="Belison">Belison</option>
+                <option value="Sebaste">Sebaste</option>
+                <option value="San Jose de Buenavista">San Jose de Buenavista</option>
+                <option value="Hamtic">Hamtic</option>
+                <option value="Tobias Fornier">Tobias Fornier</option>
+                <option value="Anini-y">Anini-y</option>
+                <option value="Caluya">Caluya</option>
+              </select>
           `,
           focusConfirm: false,
           showCancelButton: true,
@@ -192,6 +224,7 @@ export default {
               const title = document.getElementById('titleInput').value;
               const description = document.getElementById('descInput').value;
               const salary = document.getElementById('salaryInput').value.trim();
+              const location = document.getElementById('location').value;
 
               if (title == ""){
                 return this.$swal.showValidationMessage(`Please input your job title first!`);
@@ -214,7 +247,8 @@ export default {
                   body: JSON.stringify({
                     title: title,
                     description: description,
-                    salary: salary.toLocaleString()
+                    salary: salary.toLocaleString(),
+                    location: location
                   })
               });
 
@@ -243,10 +277,20 @@ export default {
       return htmlTruncate(html, 450); // truncates to ~200 characters safely
     },
     PreviousePageRequest(){
+      
+      if (this.loading || this.currentpage <= 0){
+        return;
+      }
+      
       this.currentpage--
       this.GetData()
     },
     NextPageRequest(){
+      
+      if (this.loading || this.currentpage >= this.totalpage - 1){
+        return;
+      }
+
       this.currentpage++
       this.GetData()
     },
@@ -257,6 +301,13 @@ export default {
         month: "long",   // August
         day: "numeric",  // 27
       })
+    },
+    ViewReason(reason){
+        this.$swal({
+            title: "Deny Reason",
+            text: reason,
+            icon: "warning"
+        })
     }
   },
   mounted() {

@@ -85,8 +85,14 @@
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
-              <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('edit', items._id, items.username)">
+              <button v-if="isActive == true" class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('edit', items._id, items.username)">
                 Edit
+              </button>
+              <button v-if="isActive == true" class="bg-red-500 text-white active:bg-red-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('ban', items._id, items.username)">
+                Ban
+              </button>
+              <button v-else class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('unban', items._id, items.username)">
+                Unban
               </button>
             </td>
           </tr>
@@ -120,6 +126,10 @@ export default {
       default: () => [], // Set an empty array as the default value
     },
     loading: {
+      type: Boolean,
+      default: () => true
+    },
+    isActive: {
       type: Boolean,
       default: () => true
     }

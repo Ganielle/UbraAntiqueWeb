@@ -64,7 +64,7 @@
 
             <br/>
             
-            <Worksdeniedtable :loading="loading"  :jobitems="jobs" @repending="UpdateStatusWork" @details="ViewDescription"/>
+            <Worksdeniedtable :loading="loading"  :jobitems="jobs" @repending="UpdateStatusWork" @details="ViewDescription" @denyreason="ViewReason"/>
 
         </div>
     </div>
@@ -154,7 +154,8 @@ export default {
                             credentials: "include",
                             body: JSON.stringify({
                                 "jobid": id,
-                                "status": status
+                                "status": status,
+                                "denyreason": ""
                             })
                         });
 
@@ -188,6 +189,13 @@ export default {
             this.$router.push({
                 path: "/superadmin/deniedworks/description",
                 query: { title: title, id: id, path: "DENIED WORK LIST" }
+            })
+        },
+        ViewReason(reason){
+            this.$swal({
+                title: "Deny Reason",
+                text: reason,
+                icon: "warning"
             })
         }
     },

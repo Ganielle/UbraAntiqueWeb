@@ -132,6 +132,12 @@
               <button class="bg-orange-500 text-white active:bg-orange-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('view-details', items._id, items.ownerDetails.firstname)">
                 View Details
               </button>
+              <button v-if="isActive == true" class="bg-red-500 text-white active:bg-red-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('ban', items._id, items.ownerDetails.firstname + ' ' + items.ownerDetails.lastname)">
+                Ban
+              </button>
+              <button v-else class="bg-lightBlue-500 text-white active:bg-lightBlue-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('unban', items._id, items.ownerDetails.firstname + ' ' + items.ownerDetails.lastname)">
+                Unban
+              </button>
             </td>
           </tr>
         </tbody>
@@ -166,6 +172,10 @@ export default {
     loading: {
       type: Boolean,
       default: () => true
+    },
+    isActive: {
+      type: Boolean,
+      default:  () => true
     }
   },
   methods: {

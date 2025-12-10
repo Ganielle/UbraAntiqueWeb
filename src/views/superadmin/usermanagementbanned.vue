@@ -4,7 +4,7 @@
         class="text-black text-xl uppercase lg:inline-block font-semibold pt-12"
         style="display: flex; "
         >
-        MANAGE ACCOUNTS / ACTIVE USERS
+        MANAGE ACCOUNTS / BANNED USERS
         </div>
 
         <hr/>
@@ -64,7 +64,7 @@
 
             <br/>
             
-            <Userlisttable :useritems="userlist" :loading="loading" @ban="Banuser" @view-details="ViewDescription"/>
+            <Userlisttable :useritems="userlist" :loading="loading" @view-details="ViewDescription" @Unban="UnBanuser" :isActive="false"/>
 
         </div>
     </div>
@@ -102,7 +102,7 @@ export default {
         async GetData() {
             this.loading = true;
 
-            const response = await fetch(`${process.env.VUE_APP_API_URL}/users/getuserlist?search=${this.search}&page=${this.currentpage}&status=Active&limit=10`, {
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/users/getuserlist?search=${this.search}&page=${this.currentpage}&status=Banned&limit=10`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json"
@@ -143,9 +143,9 @@ export default {
                 query: { id: id, path: path }
             })
         },
-        Banuser(id, name){
+        UnBanuser(id, name){
              this.$swal({
-                title: `Are you sure you want to ban ${name}`,
+                title: `Are you sure you want to Unban ${name}`,
                 showCancelButton: true,
                 confirmButtonText: "Yes",
                 showLoaderOnConfirm: true,
@@ -159,7 +159,7 @@ export default {
                             credentials: "include",
                             body: JSON.stringify({
                                 "id": id,
-                                "status": "Banned"
+                                "status": "Active"
                             })
                         });
 
@@ -181,7 +181,7 @@ export default {
                     this.GetData()
 
                     return this.$swal({
-                        title: `You have successfully banned ${name}!`,
+                        title: `You have successfully Unbanned ${name}!`,
                         icon: "success",
                         allowOutsideClick: false
                     }) 

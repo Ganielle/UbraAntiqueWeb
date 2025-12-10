@@ -105,6 +105,16 @@
                   : 'bg-emerald-800 text-emerald-300 border-emerald-700',
               ]"
             >
+              Deny Reason
+            </th>
+            <th
+              class="px-6 align-middle text-center border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left"
+              :class="[
+                color === 'light'
+                  ? 'bg-blueGray-50 text-blueGray-500 border-blueGray-100'
+                  : 'bg-emerald-800 text-emerald-300 border-emerald-700',
+              ]"
+            >
               Action
             </th>
           </tr>
@@ -140,6 +150,13 @@
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
             >
               {{ items.status }}
+            </td>
+            <td
+              class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
+            >
+              <button class="bg-purple-500 text-white active:bg-purple-600 font-bold uppercase px-3 py-3 rounded-full shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" style="width: 130px;" type="button" @click="$emit('denyreason', items.denyreason)">
+                View Reason
+              </button>
             </td>
             <td
               class="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"

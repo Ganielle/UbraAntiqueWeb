@@ -10,7 +10,7 @@
     <hr/>
     <br/><br/>
     <!-- Header -->
-    <div class="px-4 mx-auto">
+    <!-- <div class="px-4 mx-auto">
       <div class="flex flex-wrap">
         <div class="w-full w-1/2 px-4 lg:w-9/12">
           <div class="block mb-3 pt-0">
@@ -19,16 +19,24 @@
         </div>
         <div class="w-full px-4 lg:w-3/12">
           <div class="block">
-              <button class="w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="() => {
-              currentpage = 0
-              GetData()
-              }">
-              SEARCH
-              </button>
+              
           </div>
         </div>
-      </div>
+      </div> -->
+    <!-- </div> -->
+    <p style="font-weight: bolder; font-size: 1.3rem;">FILTERS:</p>
+    <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 1rem;">
+      <p style="font-weight: bold; margin: 0;">
+          Title: {{ search == "" ? "No Search Title" : search }}
+      </p>
+      <p style="font-weight: bold; margin: 0;">Location: {{ locationfilter == "" ? "No Location Filter" : locationfilter }}</p>
     </div>
+
+    <br/>
+    
+    <button class=" bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="searchFilters">
+      SEARCH FILTERS
+    </button>
 
     <br/>
     <div v-if="loading">
@@ -62,9 +70,9 @@
             :key="job._id"
             class="w-full sm:w-10/12 md:w-7/12 lg:w-6/12 xl:w-4/12 min-h-[100px] p-5 relative flex flex-col"
           >
-            <div class="bg-white border border-black rounded p-5">
+            <div class="bg-white border border-black rounded p-5" style="height: 100%;">
               <p class="text-lg font-bold mb-3">
-                {{ job.title }}
+                {{ job.title }} ({{ job.location == null ? 'No location' : job.location }})
               </p>
 
               <div class="text-xs font-bold mb-3">
@@ -77,7 +85,9 @@
                 class="text-base mb-10 flex-grow"
               ></div>
 
-              <div class="mt-auto text-right">
+              <br/><br/>
+
+              <div style="position: absolute; bottom: 20px; right: 30px; display: flex; gap: 8px; margin-bottom: 20px;">
                 <button
                   class="bg-emerald-500 text-white px-3 py-1 rounded shadow hover:shadow-lg"
                   @click="() =>{
@@ -101,7 +111,7 @@
 
             <p style="font-size: 1.4rem; font-weight: bold;">{{ currentpage  + 1 }} / {{ totalpage }}</p>
 
-            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage">
+            <button class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="NextPageRequest" :disabled="loading || currentpage >= totalpage - 1">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
@@ -121,6 +131,7 @@ export default {
   data() {
     return {
       search: "",
+      locationfilter: "",
       jobs: [],
       loading: false,
       currentpage: 0,
@@ -131,7 +142,7 @@ export default {
     async GetData() {
       this.loading = true;
 
-      const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/showjobs?search=${this.search}&page=${this.currentpage}&limit=10`, {
+      const response = await fetch(`${process.env.VUE_APP_API_URL}/jobs/showjobs?search=${this.search}&location=${this.locationfilter}&page=${this.currentpage}&limit=10`, {
           method: 'GET',
           headers: {
           "Content-Type": "application/json"
@@ -169,10 +180,20 @@ export default {
       return htmlTruncate(html, 450); // truncates to ~200 characters safely
     },
     PreviousePageRequest(){
+
+      if (this.loading || this.currentpage <= 0){
+        return;
+      }
+
       this.currentpage--
       this.GetData()
     },
     NextPageRequest(){
+
+      if (this.loading || this.currentpage >= this.totalpage - 1){
+        return;
+      }
+
       this.currentpage++
       this.GetData()
     },
@@ -182,6 +203,61 @@ export default {
         year: "numeric",
         month: "long",   // August
         day: "numeric",  // 27
+      })
+    },
+    searchFilters(){
+      this.$swal({
+          title: "SEARCH FILTERS",
+          html: `
+              <center>
+              <input type="text" name="titleInput" id="titleInput" placeholder="Search Job Title" class="swal2-input" style="display: flex; width: 70%;" />
+              <center/>
+              <br/>
+              <label for="location" style="">Choose a location:</label>
+              <br/>
+              <select name="location" id="location" style="display: flex; width: 70%;">
+                <option value="">No Location Filter</option>
+                <option value="Pandan">Pandan</option>
+                <option value="Libertad">Libertad</option>
+                <option value="Laua-an">Laua-an</option>
+                <option value="Valderrama">Valderrama</option>
+                <option value="Sibalom">Sibalom</option>
+                <option value="San Remigio">San Remigio</option>
+                <option value="Tibiao">Tibiao</option>
+                <option value="Culasi">Culasi</option>
+                <option value="Bugasong">Bugasong</option>
+                <option value="Patnongon">Patnongon</option>
+                <option value="Belison">Belison</option>
+                <option value="Sebaste">Sebaste</option>
+                <option value="San Jose de Buenavista">San Jose de Buenavista</option>
+                <option value="Hamtic">Hamtic</option>
+                <option value="Tobias Fornier">Tobias Fornier</option>
+                <option value="Anini-y">Anini-y</option>
+                <option value="Caluya">Caluya</option>
+              </select>
+          `,
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: "Search",
+          didOpen: () => {
+            document.getElementById("location").value = this.locationfilter;
+            document.getElementById("titleInput").value = this.search;
+          },
+          showLoaderOnConfirm: true,
+
+          preConfirm: async () => {
+              const title = document.getElementById('titleInput').value;
+              const location = document.getElementById('location').value;
+
+              this.search = title
+              this.locationfilter = location
+          },
+          allowOutsideClick: () => !this.$swal.isLoading()
+      }).then((tempresponse) => {
+          if (tempresponse.isConfirmed){
+            this.currentpage = 0
+            this.GetData()
+          }
       })
     }
   },

@@ -27,7 +27,7 @@
     </div>
     <div v-else>
 
-      <p style="font-size: 2rem; margin-left: 20px; padding-top: 20px; font-weight: bold;">{{ job.title }}</p>
+      <p style="font-size: 2rem; margin-left: 20px; padding-top: 20px; font-weight: bold;">{{ job.title }} ({{ job.location == null ? "No Location" : job.location }})</p>
       <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 0.8rem;">
           <p style="font-weight: bold; margin: 0;">
               Posted by: {{ name.toUpperCase() }}

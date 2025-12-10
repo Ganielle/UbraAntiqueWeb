@@ -83,12 +83,12 @@
         <h6
           class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
         >
-          Manage Accounts
+          Admin Manage Accounts
         </h6>
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
             <router-link
-              to="/superadmin/management/admin"
+              to="/superadmin/management/activeadmins"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -102,17 +102,17 @@
                 ]"
               >
                 <i
-                  class="fas fa-user-secret mr-2 text-sm"
+                  class="fa-solid fa-check mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                Admin
+                Active
               </a>
             </router-link>
           </li>
 
           <li class="items-center">
             <router-link
-              to="/superadmin/management/user"
+              to="/superadmin/management/banadmins"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -126,17 +126,49 @@
                 ]"
               >
                 <i
-                  class="fas fa-user mr-2 text-sm"
+                  class="fa-solid fa-ban mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                User
+                Banned
+              </a>
+            </router-link>
+          </li>
+        </ul>
+        
+        <hr class="my-4 md:min-w-full" />
+        <h6
+          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+        >
+          User Manage Accounts
+        </h6>
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
+          <li class="items-center">
+            <router-link
+              to="/superadmin/management/activeusers"
+              v-slot="{ href, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="fas fa-check mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+                ACTIVE
               </a>
             </router-link>
           </li>
 
-          <!-- <li class="items-center">
+          <li class="items-center">
             <router-link
-              to="/superadmin/manageuser/user"
+              to="/superadmin/management/banusers"
               v-slot="{ href, navigate, isActive }"
             >
               <a
@@ -150,65 +182,14 @@
                 ]"
               >
                 <i
-                  class="fas fa-user mr-2 text-sm"
+                  class="fas fa-ban mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                EMPLOYER
+                BANNED
               </a>
             </router-link>
-          </li> -->
-
-          <!-- <li class="items-center">
-            <router-link
-              to="/superadmin/manageuser/useridverification"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-id-card mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                User Verification
-              </a>
-            </router-link>
-          </li> -->
-
-          
-          <!-- <li class="items-center">
-            <router-link
-              to="/superadmin/manageuser/useridverification"
-              v-slot="{ href, navigate, isActive }"
-            >
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-id-card mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                EMPLOYER Verification
-              </a>
-            </router-link>
-          </li> -->
-
+          </li>
         </ul>
-        
 
         <!--#region THIRD NAVIGATION (INVENTORY)-->
         <hr class="my-4 md:min-w-full" />

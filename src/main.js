@@ -48,8 +48,11 @@ import UserMyJobs from '@/views/user/employee/Myjobs.vue'
 import UserMessaging from '@/views/user/employee/Message.vue'
 import UserMyJobDescription from '@/views/user/employee/Myjobdescription.vue'
 import Usermanagement from "./views/superadmin/usermanagement.vue";
+import Usermanagementbanned from "./views/superadmin/usermanagementbanned.vue";
 import Usermanagementprofile from "./views/superadmin/Usermanagementprofile.vue";
 import Adminmanageaccount from "./views/superadmin/Adminmanageaccount.vue";
+import Adminmanageaccountbanned from "./views/superadmin/Adminmanageaccountbanned.vue";
+import Forumsemployee from "./views/user/employee/Forumsemployee.vue";
 
 //  #endregion
 
@@ -58,6 +61,7 @@ import Adminmanageaccount from "./views/superadmin/Adminmanageaccount.vue";
 import Employerdashboard from '@/views/user/employer/Dashboard.vue'
 import EmployerMessaging from '@/views/user/employer/Message.vue'
 import EmployerMyJobDescription from '@/views/user/employer/Myjobdescription.vue'
+import Employeeprofile from "./views/user/employer/Employeeprofile.vue";
 
 //  #endregion
 
@@ -102,8 +106,12 @@ const routes = [
         })
       },
       {
-        path: "/superadmin/management/user",
+        path: "/superadmin/management/activeusers",
         component: Usermanagement
+      },
+      {
+        path: "/superadmin/management/banusers",
+        component: Usermanagementbanned
       },
       {
         path: "/superadmin/management/user/profile",
@@ -114,9 +122,13 @@ const routes = [
         })
       },
       {
-        path: "/superadmin/management/admin",
+        path: "/superadmin/management/activeadmins",
         component: Adminmanageaccount
       },
+      {
+        path: "/superadmin/management/banadmins",
+        component: Adminmanageaccountbanned
+      }
     ],
   },
   {
@@ -156,6 +168,10 @@ const routes = [
           id: route.query.id
         })
       },
+      {
+        path: "/employee/forums",
+        component: Forumsemployee
+      }
     ]
   },
   {
@@ -179,6 +195,13 @@ const routes = [
           id: route.query.id
         })
       },
+      {
+        path: "/employer/jobdescription/employee/profile",
+        component: Employeeprofile,
+        props: route => ({
+          employeeid: route.query.employeeid
+        })
+      }
     ]
   },
   {
