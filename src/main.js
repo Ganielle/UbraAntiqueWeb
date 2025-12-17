@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createWebHistory, createRouter } from "vue-router";
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import VueGoogleMaps from '@fawmi/vue-google-maps';
+// import VueGoogleMaps from '@fawmi/vue-google-maps';
 
 // styles
 
@@ -36,6 +36,9 @@ import WorkDeniedSA from '@/views/superadmin/Worksdenied.vue'
 
 import Jobdescriptionworks from "./views/superadmin/Jobdescriptionworks.vue";
 import Jobdescriptionworksdenied from "./views/superadmin/Jobdescriptionworksdenied.vue";
+
+import Forumsapproval from "./views/superadmin/Forumsapproval.vue";
+import Forumslist from "./views/superadmin/Forumslist.vue";
 
 //  #endregion
 
@@ -128,6 +131,15 @@ const routes = [
       {
         path: "/superadmin/management/banadmins",
         component: Adminmanageaccountbanned
+      },
+      
+      {
+        path: "/superadmin/forums/approval",
+        component: Forumsapproval
+      },
+      {
+        path: "/superadmin/forums/list",
+        component: Forumslist
       }
     ],
   },
@@ -227,8 +239,10 @@ const router = createRouter({
   routes,
 });
 
-createApp(App).use(router).use(vfmPlugin).use(VueGoogleMaps, {
-  load: {
-    key: 'AIzaSyCDuoNto3I8FpZ1b1wwA0CiZsGjxAEirR8',
-  },
-}).use(VueSweetalert2).mount("#app");
+// createApp(App).use(router).use(vfmPlugin).use(VueGoogleMaps, {
+//   load: {
+//     key: 'AIzaSyCDuoNto3I8FpZ1b1wwA0CiZsGjxAEirR8',
+//   },
+// }).use(VueSweetalert2).mount("#app");
+
+createApp(App).use(router).use(vfmPlugin).use(VueSweetalert2).mount("#app");

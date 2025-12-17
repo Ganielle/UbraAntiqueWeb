@@ -158,8 +158,15 @@
           </li>
         </ul>
 
-        <!--#region FOURTH NAVIGATION (Messaging)-->
-        <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+        
+      <!--#region THIRD NAVIGATION (INVENTORY)-->
+        <hr class="my-4 md:min-w-full" />
+        <h6
+          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+        >
+          FORUMS
+        </h6>
+        <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
             <router-link
               to="/employee/forums"
@@ -179,12 +186,38 @@
                   class="fa-solid fa-pen-to-square mr-2 text-sm"
                   :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
                 ></i>
-                FORUMS
+                MY POSTS
+              </a>
+            </router-link>
+          </li>
+
+          <li class="items-center">
+            <router-link
+              to="/employee/forums"
+              v-slot="{ href, navigate, isActive }"
+            >
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="fa-solid fa-pen-to-square mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+                OTHERS POSTS
               </a>
             </router-link>
           </li>
         </ul>
+
       </div>
+
 
       <button
         class="bg-emerald-500 text-white active:bg-blueGray-600 text-sm font-bold uppercase px-2 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
