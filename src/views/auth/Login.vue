@@ -27,19 +27,21 @@
                 />
               </div>
 
-              <div class="relative w-full mb-3">
-                <label
-                  class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                  htmlFor="grid-password"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  placeholder="Password"
-                  v-model="password"
-                />
+              
+              <label
+                class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                htmlFor="grid-password"
+              >
+                Password
+              </label>
+              <div class="relative flex w-full flex-wrap items-stretch mb-3">
+                <input :type="showpw ? 'text' : 'password'" placeholder="Password"
+                v-model="password" class="px-3 py-3 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-sm border border-blueGray-300 outline-none focus:outline-none focus:shadow-outline w-full pr-10"/>
+                <span class="z-10 h-full leading-snug font-normal absolute text-center text-blueGray-300 absolute bg-transparent rounded text-base items-center justify-center w-8 right-0 pr-3 py-3" @click="() => {
+                  showpw = !showpw
+                }">
+                  <i :class="showpw ? 'fas fa-eye' : 'fa-regular fa-eye '"></i>
+                </span>
               </div>
 
               <div class="text-center mt-6">
@@ -118,6 +120,7 @@ export default {
       verificationcode: "",
       generatingcode: false,
       seconds: 150,
+      showpw: false
     };
   },
   methods: {
