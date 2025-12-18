@@ -9,7 +9,14 @@
           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
           v-model="searchQuery"
         />
+        <br/><br/>
+        <button
+        class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-xs px-4 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+        type="button" @click="GetData()">
+          Search
+        </button>
       </div>
+
     </div>
     
     <div class="overflow-y-auto h-full">
@@ -22,36 +29,28 @@
       </div>
       <div v-else>
         <div
-          v-for="conversation in filteredConversations"
-          :key="conversation.id"
+          v-for="conversation in conversations"
+          :key="conversation._id"
           @click="selectConversation(conversation)"
           :class="[
             'flex items-center p-4 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors',
             selectedConversation?.id === conversation.id ? 'bg-teal-50 border-l-4 border-l-teal-500' : ''
           ]"
         >
-          <div class="relative">
+          <!-- <div class="relative">
             <div 
               v-if="conversation.isOnline"
               class="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-white rounded-full"
             ></div>
-          </div>
+          </div> -->
           
           <div class="ml-3 flex-1 min-w-0">
             <div class="flex justify-between items-baseline">
               <h3 class="text-sm font-medium text-gray-900 truncate">
-                {{ conversation.name }}
+                {{ conversation.title }}
               </h3>
               <span class="text-xs text-gray-500">
-                {{ formatTime(conversation.lastMessageTime) }}
-              </span>
-            </div>
-            <p class="text-sm text-gray-600 truncate mt-1">
-              {{ conversation.lastMessage }}
-            </p>
-            <div v-if="conversation.unreadCount > 0" class="flex justify-end mt-1">
-              <span class="bg-teal-500 text-white text-xs rounded-full px-2 py-1 min-w-[20px] text-center">
-                {{ conversation.unreadCount }}
+                {{ formatTime(conversation.createdAt) }}
               </span>
             </div>
           </div>
@@ -66,11 +65,18 @@
 export default {
     name: "user-messaging-list",
     emits: ['conversation-selected'],
+    props:{
+      conversation: {
+        type: Array,
+        default: () => []
+      }
+    },
     data() {
         return {
             searchQuery: "",
             selectedConversation: null,
-            conversations: []
+            conversations: [],
+            loading: false
             // conversations: [
             //     {
             //         id: 1,
@@ -97,17 +103,46 @@ export default {
             if (diff < 3600000) return `${Math.floor(diff / 60000)}m`
             if (diff < 86400000) return `${Math.floor(diff / 3600000)}h`
             return new Date(timestamp).toLocaleDateString()
-        }
+        },
+        async GetData() {
+          this.loading = true;
+
+          const response = await fetch(`${process.env.VUE_APP_API_URL}/chat/getconversations?search=${this.searchQuery}`, {
+              method: 'GET',
+              headers: {
+              "Content-Type": "application/json"
+              },
+              credentials: "include"
+          });
+
+          const responseData = await response.json();
+
+          if (response.status === 400) {
+              //  API HERE
+              this.$swal({
+              title: responseData.data,
+              icon: "error"
+              })
+
+              this.loading = false;
+              return;
+          }
+          else if (response.status == 401){
+              this.$swal({
+              title: "Authentication Failed! You will now be redirected to the login page",
+              icon: "error"
+              })
+
+              this.$router.push({path: "/"})
+              return;
+          }
+
+          this.conversations = responseData.data
+          this.loading = false;
+        },
     },
-    computed: {
-        filteredConversations() {
-            if (!this.searchQuery) return this.conversations
-            return this.conversations.filter(conv => 
-                conv.name.toLowerCase().includes(this.searchQuery.toLowerCase()))
-        }
+    mounted() {
+      this.GetData()
     }
-//   mounted() {
-//     this.GetData()
-//   }
 };
 </script>

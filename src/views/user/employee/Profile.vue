@@ -17,7 +17,7 @@
                 </ContentLoader>
                 <div v-else>
                     <div style="font-size: 2.5rem;">
-                        {{ name.toUpperCase() }}
+                        {{ name.toUpperCase() }} (EMPLOYEE)
                     </div>
                     <div style="font-size: 1.5rem; padding-top: 5px; display: flex; align-items: center; gap: 10px;">
                         <p :class="status === 'openforwork' ? 'text-green' : 'text-red'" class="m-0">

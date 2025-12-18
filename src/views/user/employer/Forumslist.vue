@@ -11,33 +11,20 @@
         <br/>
         
         <!-- Header -->
-        <!-- <div class="px-4 mx-auto">
-            <div class="flex flex-wrap">
-                <div class="w-full w-1/2 px-4 lg:w-9/12">
-                <div class="block mb-3 pt-0">
-                    <input type="text" placeholder="Search Discussion Title" class="px-3 py-4 placeholder-blueGray-300 text-blueGray-600 relative bg-white bg-white rounded text-base shadow outline-none focus:outline-none focus:shadow-outline w-full" v-model="search"/>
-                </div>
-                </div>
-                <div class="w-full px-4 lg:w-3/12">
-                <div class="block">
-                    <button class="w-full bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="() => {
-                    currentpage = 0
-                    GetData()
-                    }">
-                    SEARCH
-                    </button>
-                </div>
-                </div>
-            </div>
-        </div> -->
-        <br/>
-        <div>
-            <button class="bg-yellow-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="() => {
-                PostQuestion()
-            }">
-                CREATE QUESTION
-            </button>
+        <p style="font-weight: bolder; font-size: 1.3rem;">FILTERS:</p>
+        <div style="display: flex; align-items: center; gap: 50px; margin-left: 20px; padding-top: 10px; font-size: 1rem;">
+          <p style="font-weight: bold; margin: 0;">
+              Title: {{ search == "" ? "No Search Title" : search }}
+          </p>
+          <p style="font-weight: bold; margin: 0;">Tag: {{ tagfilter == "" ? "No Tag Filter" : tagfilter }}</p>
         </div>
+
+        <br/>
+        
+        <button class=" bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-base px-12 py-3 rounded shadow-md hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button" @click="searchFilters">
+          SEARCH FILTERS
+        </button>
+        <br/>
         <div v-if="loading">
         <div style="width: 100%; height: 200px; background-color: white; border-radius: 5px;">
             <ContentLoader viewBox="0 0 250 110">
@@ -128,7 +115,7 @@ export default {
   data() {
     return {
       search: "",
-      locationfilter: "",
+      tagfilter: "",
       forums: [],
       loading: false,
       currentpage: 0,
@@ -139,7 +126,7 @@ export default {
     async GetData() {
       this.loading = true;
 
-      const response = await fetch(`${process.env.VUE_APP_API_URL}/forums/myforums?page=${this.currentpage}&limit=12`, {
+      const response = await fetch(`${process.env.VUE_APP_API_URL}/forums/list?page=${this.currentpage}&limit=12&search=${this.search}&tag=${this.tagfilter}`, {
           method: 'GET',
           headers: {
           "Content-Type": "application/json"
@@ -210,44 +197,31 @@ export default {
               <input type="text" name="titleInput" id="titleInput" placeholder="Search Job Title" class="swal2-input" style="display: flex; width: 70%;" />
               <center/>
               <br/>
-              <label for="location" style="">Choose a location:</label>
+              <label for="tag" style="">Choose a tag:</label>
               <br/>
-              <select name="location" id="location" style="display: flex; width: 70%;">
-                <option value="">No Location Filter</option>
-                <option value="Pandan">Pandan</option>
-                <option value="Libertad">Libertad</option>
-                <option value="Laua-an">Laua-an</option>
-                <option value="Valderrama">Valderrama</option>
-                <option value="Sibalom">Sibalom</option>
-                <option value="San Remigio">San Remigio</option>
-                <option value="Tibiao">Tibiao</option>
-                <option value="Culasi">Culasi</option>
-                <option value="Bugasong">Bugasong</option>
-                <option value="Patnongon">Patnongon</option>
-                <option value="Belison">Belison</option>
-                <option value="Sebaste">Sebaste</option>
-                <option value="San Jose de Buenavista">San Jose de Buenavista</option>
-                <option value="Hamtic">Hamtic</option>
-                <option value="Tobias Fornier">Tobias Fornier</option>
-                <option value="Anini-y">Anini-y</option>
-                <option value="Caluya">Caluya</option>
+              <select name="tag" id="tag" style="display: flex; width: 70%;">
+                <option value="">No Tag Filter</option>
+                <option value="Work">Work</option>
+                <option value="Question">Question</option>
+                <option value="Warning">Warning</option>
+                <option value="Others">Others</option>
               </select>
           `,
           focusConfirm: false,
           showCancelButton: true,
           confirmButtonText: "Search",
           didOpen: () => {
-            document.getElementById("location").value = this.locationfilter;
+            document.getElementById("tag").value = this.tagfilter;
             document.getElementById("titleInput").value = this.search;
           },
           showLoaderOnConfirm: true,
 
           preConfirm: async () => {
               const title = document.getElementById('titleInput').value;
-              const location = document.getElementById('location').value;
+              const tag = document.getElementById('tag').value;
 
               this.search = title
-              this.locationfilter = location
+              this.tagfilter = tag
           },
           allowOutsideClick: () => !this.$swal.isLoading()
       }).then((tempresponse) => {
@@ -257,79 +231,10 @@ export default {
           }
       })
     },
-    async PostQuestion(){
-      this.$swal({
-          title: "POST YOUR TOPIC",
-          html: `
-              <center>
-              <input type="text" id="titleInput" placeholder="Topic Title" class="swal2-input" style="display: flex; width: 70%;" />
-              <textarea autocapitalize="off" id="descInput" placeholder="Topic Content" class="swal2-textarea" style="display: flex;  width: 70%;"></textarea>
-              <center/>
-              <label for="cars" style="">Choose a tag:</label>
-              <br/>
-              <select name="tag" id="tag" style="display: flex; width: 70%;">
-                <option value="Work">Work</option>
-                <option value="Question">Question</option>
-                <option value="Warning">Warning</option>
-                <option value="Others">Others</option>
-              </select>
-          `,
-          focusConfirm: false,
-          showCancelButton: true,
-          confirmButtonText: "Submit",
-          showLoaderOnConfirm: true,
-
-          preConfirm: async () => {
-              const title = document.getElementById('titleInput').value;
-              const content = document.getElementById('descInput').value;
-              const tag = document.getElementById('tag').value;
-
-              if (title == ""){
-                return this.$swal.showValidationMessage(`Please input your topic title first!`);
-              }
-
-              else if (content == ""){
-                return this.$swal.showValidationMessage(`Please input your topic content first!`);
-              }
-
-              const response = await fetch(`${process.env.VUE_APP_API_URL}/forums/postforum`,{
-                  method: 'POST',
-                  headers: {
-                  'Content-Type': 'application/json',
-                  },
-                  credentials: "include",
-                  body: JSON.stringify({
-                    title: title,
-                    content: content,
-                    tag: tag
-                  })
-              });
-
-              if (!response.ok) {
-                  return this.$swal.showValidationMessage(`
-                      ${response.data}
-                  `);
-              }
-              return response.json();
-          },
-          allowOutsideClick: () => !this.$swal.isLoading()
-      }).then((tempresponse) => {
-          if (tempresponse.isConfirmed){
-
-              this.GetData()
-
-              return this.$swal({
-                  title: "Successfully created!",
-                  icon: "success",
-                  allowOutsideClick: false
-              })
-          }
-      })
-    },
     viewdetails(title, id){
       const routeData = this.$router.resolve({
-        path: '/employee/forums/post',
-        query: { title: title, id: id, path: 'MY POSTS', pagepath: '/employee/forums' }
+        path: '/employer/forums/post',
+        query: { title: title, id: id, path: 'OTHER\'s POST', pagepath: '/employer/forums' }
       })
       
       window.open(routeData.href, '_blank');

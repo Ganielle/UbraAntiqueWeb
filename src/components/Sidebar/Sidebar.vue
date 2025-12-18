@@ -334,7 +334,7 @@
 
           <li class="items-center">
             <router-link
-              to="/superadmin/works/list"
+              to="/superadmin/forums/denied"
               v-slot="{ href, navigate, isActive }"
             >
               <a

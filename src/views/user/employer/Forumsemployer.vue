@@ -328,8 +328,8 @@ export default {
     },
     viewdetails(title, id){
       const routeData = this.$router.resolve({
-        path: '/employee/forums/post',
-        query: { title: title, id: id, path: 'MY POSTS', pagepath: '/employee/forums' }
+        path: '/employer/forums/post',
+        query: { title: title, id: id, path: 'MY POSTS', pagepath: '/employer/forums' }
       })
       
       window.open(routeData.href, '_blank');

@@ -4,7 +4,7 @@
         class="text-black text-xl uppercase lg:inline-block font-semibold pt-12"
         style="display: flex; "
         >
-        FORUMS / LIST
+        FORUMS / DENIED
         </div>
 
         <hr/>
@@ -64,7 +64,7 @@
 
             <br/>
             
-            <Forumslistcomponent :forums="forums" :loading="loading" @repending="UpdateStatusWork" @view-details="ViewDescription"/>
+            <Forumsdeniedlist :forums="forums" :loading="loading" @view-details="ViewDescription" @repending="UpdateStatusWork"/>
         </div>
     </div>
 </template>
@@ -72,13 +72,13 @@
 <script>
 import { ContentLoader } from 'vue-content-loader'
 
-import Forumslistcomponent from '../../components/UbraAntique/Superadmin/Forums/Forumslist.vue';
+import Forumsdeniedlist from '../../components/UbraAntique/Superadmin/Forums/Forumsdenied.vue';
 
 export default {
     name: "user-my-jobs-page",
     components: {
         ContentLoader,
-        Forumslistcomponent
+        Forumsdeniedlist
     },
     data() {
         return {
@@ -101,7 +101,7 @@ export default {
         async GetData() {
             this.loading = true;
 
-            const response = await fetch(`${process.env.VUE_APP_API_URL}/forums/list?search=${this.search}&page=${this.currentpage}&limit=10`, {
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/forums/approvallist?search=${this.search}&page=${this.currentpage}&limit=10&status=Deny`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json"
@@ -236,12 +236,7 @@ export default {
             
             const routeData = this.$router.resolve({
                 path: "/superadmin/forums/post",
-                query: {
-                    title: title,
-                    id: id,
-                    path: "DENIED",
-                    pagepath: "/superadmin/forums/list"
-                }
+                query: { title: title, id: id, path: "DENIED", pagepath: "/superadmin/forums/denied" }
             });
 
             window.open(routeData.href, "_blank");

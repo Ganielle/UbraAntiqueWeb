@@ -101,7 +101,7 @@ export default {
         async GetData() {
             this.loading = true;
 
-            const response = await fetch(`${process.env.VUE_APP_API_URL}/forums/approvallist?search=${this.search}&page=${this.currentpage}&limit=10`, {
+            const response = await fetch(`${process.env.VUE_APP_API_URL}/forums/approvallist?search=${this.search}&page=${this.currentpage}&limit=10&status=Pending`, {
                 method: 'GET',
                 headers: {
                     "Content-Type": "application/json"
@@ -234,10 +234,12 @@ export default {
         },
         ViewDescription(id, title){
             
-            this.$router.push({
-                path: "/superadmin/deniedworks/description",
-                query: { title: title, id: id, path: "APPROVAL WORK LIST" }
-            })
+            const routeData = this.$router.resolve({
+                path: "/superadmin/forums/post",
+                query: { title: title, id: id, path: "APPROVAL", pagepath: "/superadmin/forums/approval" }
+            });
+
+            window.open(routeData.href, "_blank");
         }
     },
     mounted() {

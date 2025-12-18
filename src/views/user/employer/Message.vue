@@ -54,9 +54,8 @@ export default {
   },
   methods: {
     handleConversationSelected(conversation) {
-      console.log("hello")
         this.selectedConversation = conversation
-    }
+    },
 },
 //   mounted() {
 //     this.GetData()

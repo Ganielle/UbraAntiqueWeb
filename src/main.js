@@ -39,6 +39,8 @@ import Jobdescriptionworksdenied from "./views/superadmin/Jobdescriptionworksden
 
 import Forumsapproval from "./views/superadmin/Forumsapproval.vue";
 import Forumslist from "./views/superadmin/Forumslist.vue";
+import Forumsdenied from "./views/superadmin/Forumsdenied.vue";
+import Forumpost from "./views/superadmin/Forumpost.vue";
 
 //  #endregion
 
@@ -56,6 +58,8 @@ import Usermanagementprofile from "./views/superadmin/Usermanagementprofile.vue"
 import Adminmanageaccount from "./views/superadmin/Adminmanageaccount.vue";
 import Adminmanageaccountbanned from "./views/superadmin/Adminmanageaccountbanned.vue";
 import Forumsemployee from "./views/user/employee/Forumsemployee.vue";
+import Forumpostemployee from "./views/user/employee/Forumpost.vue";
+import Forumslistemployee from "./views/user/employee/Forumslist.vue";
 
 //  #endregion
 
@@ -65,6 +69,10 @@ import Employerdashboard from '@/views/user/employer/Dashboard.vue'
 import EmployerMessaging from '@/views/user/employer/Message.vue'
 import EmployerMyJobDescription from '@/views/user/employer/Myjobdescription.vue'
 import Employeeprofile from "./views/user/employer/Employeeprofile.vue";
+import Forumsemployer from "./views/user/employer/Forumsemployer.vue";
+import Forumpostemployer from "./views/user/employer/Forumpost.vue";
+import Forumslistemployer from "./views/user/employer/Forumslist.vue";
+import Profileemployer from "./views/user/employer/Profile.vue";
 
 //  #endregion
 
@@ -140,7 +148,21 @@ const routes = [
       {
         path: "/superadmin/forums/list",
         component: Forumslist
-      }
+      },
+      {
+        path: "/superadmin/forums/denied",
+        component: Forumsdenied
+      },
+      {
+        path: "/superadmin/forums/post",
+        component: Forumpost,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id,
+          path: route.query.path,
+          pagepath: route.query.pagepath
+        })
+      },
     ],
   },
   {
@@ -181,9 +203,23 @@ const routes = [
         })
       },
       {
-        path: "/employee/forums",
+        path: "/employee/myforums",
         component: Forumsemployee
-      }
+      },
+      {
+        path: "/employee/forums/post",
+        component: Forumpostemployee,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id,
+          path: route.query.path,
+          pagepath: route.query.pagepath
+        })
+      },
+      {
+        path: "/employee/forums",
+        component: Forumslistemployee
+      },
     ]
   },
   {
@@ -213,7 +249,29 @@ const routes = [
         props: route => ({
           employeeid: route.query.employeeid
         })
-      }
+      },
+      {
+        path: "/employer/myforums",
+        component: Forumsemployer
+      },
+      {
+        path: "/employer/forums/post",
+        component: Forumpostemployer,
+        props: route => ({
+          title: route.query.title,
+          id: route.query.id,
+          path: route.query.path,
+          pagepath: route.query.pagepath
+        })
+      },
+      {
+        path: "/employer/forums",
+        component: Forumslistemployer
+      },
+      {
+        path: "/employer/myprofile",
+        component: Profileemployer,
+      },
     ]
   },
   {

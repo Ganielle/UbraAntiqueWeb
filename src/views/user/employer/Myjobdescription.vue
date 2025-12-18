@@ -84,7 +84,7 @@
           </div>
         </div>
       </div>
-      <Viewlistmodal v-else @close="toggleModal" :employees="job.applicantDetails" :jobstatus="job.status" @selectemployee="UpdateStatusWork"/>
+      <Viewlistmodal v-else @close="toggleModal" :employees="job.applicantDetails" :jobstatus="job.status" @selectemployee="UpdateStatusWork" @message="message"/>
     </div>
   </div>
 </template>
@@ -345,6 +345,77 @@ export default {
 
               return this.$swal({
                   title: "Successfully edited!",
+                  icon: "success",
+                  allowOutsideClick: false
+              })
+          }
+      })
+    },
+    message(id, name){
+      this.$swal({
+          title: "MESSAGE",
+          html: `
+              <center>
+              <label for="receiver" style="">Receiver</label>
+              <input type="text" name"receiver" id="receiver" placeholder="Job title" class="swal2-input" style="display: flex; width: 70%;" disabled/>
+              <label for="title" style="">Title</label>
+              <input type="text" name"title" id="title" placeholder="Job title" class="swal2-input" style="display: flex; width: 70%;" />
+              
+              <label for="message" style="">Message</label>
+              <textarea autocapitalize="off" name="message" id="message" placeholder="Your Message" class="swal2-textarea" style="display: flex;  width: 70%;"></textarea>
+              <center/>
+          `,
+          focusConfirm: false,
+          showCancelButton: true,
+          confirmButtonText: "Submit",
+          showLoaderOnConfirm: true,
+          didOpen: () => {
+            document.getElementById("receiver").value = name.toUpperCase();
+            document.getElementById("title").value = `${name.toUpperCase()}'s and ${this.job.ownerDetails.firstname.toUpperCase()} ${this.job.ownerDetails.lastname.toUpperCase()}'s conversation`;
+          },
+          preConfirm: async () => {
+              const receiver = id;
+              const title = document.getElementById('title').value;
+              const message = document.getElementById('message').value;
+
+              if (title == ""){
+                return this.$swal.showValidationMessage(`Please input your message title first!`);
+              }
+
+              else if (receiver == ""){
+                return this.$swal.showValidationMessage(`Please select a valid user first!`);
+              }
+
+              else if (message == ""){
+                return this.$swal.showValidationMessage(`Please input your message first!`);
+              }
+
+              const response = await fetch(`${process.env.VUE_APP_API_URL}/chat/createnewmessage`,{
+                  method: 'POST',
+                  headers: {
+                  'Content-Type': 'application/json',
+                  },
+                  credentials: "include",
+                  body: JSON.stringify({
+                    title: title,
+                    receiver: receiver,
+                    message: message,
+                  })
+              });
+
+              if (!response.ok) {
+                  return this.$swal.showValidationMessage(`
+                      ${response.data}
+                  `);
+              }
+              return response.json();
+          },
+          allowOutsideClick: () => !this.$swal.isLoading()
+      }).then((tempresponse) => {
+          if (tempresponse.isConfirmed){
+
+              return this.$swal({
+                  title: `Successfully message ${name}!`,
                   icon: "success",
                   allowOutsideClick: false
               })

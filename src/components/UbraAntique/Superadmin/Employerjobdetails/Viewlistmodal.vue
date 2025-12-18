@@ -48,7 +48,7 @@
                 </button>
                 <button v-else-if="jobstatus == 'Close' && employee.applicantStatus == 'Selected'"
                     style="padding: 6px 12px; background-color: #1640b4; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                    @click="$emit('selectemployee', employee.owner, employee.firstname + ' ' + employee.lastname)"
+                    @click="$emit('message', employee.owner, employee.firstname + ' ' + employee.lastname)"
                     >
                     Message
                 </button>

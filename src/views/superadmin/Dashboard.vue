@@ -20,7 +20,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="TOTAL WORK OFFERED"
-                :statTitle="`${totalincome + loan.loanincome}`"
+                :statTitle="totaljob"
                 statIconName="fas fa-briefcase"
                 statIconColor="bg-emerald-500"
               />
@@ -28,7 +28,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="TOTAL FORUM DISCUSSIONS"
-                statTitle="0.00"
+                :statTitle="totalforums"
                 statIconName="fas fa-comments"
                 statIconColor="bg-red-500"
               />
@@ -36,7 +36,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="APPROVED WORK POSTED"
-                :statTitle="`${loan.loanincome}`"
+                :statTitle="totalapprovedjobs"
                 statIconName="fas fa-check-to-slot"
                 statIconColor="bg-pink-500"
               />
@@ -44,7 +44,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="REJECTED WORK POSTED"
-                :statTitle="`${loan.loanincome}`"
+                :statTitle="totaldeniedjobs"
                 statIconName="fas fa-xmark"
                 statIconColor="bg-orange-500"
               />
@@ -63,7 +63,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="TOTAL USERS"
-                :statTitle="totaluser.user + totaluser.admin + totaluser.customersupport + totaluser.finance"
+                :statTitle="totalusers + totaladmin"
                 statIconName="fas fa-user"
                 statIconColor="bg-orange-500"
               />
@@ -71,7 +71,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="USER"
-                :statTitle="totaluser.user"
+                :statTitle="totaluser"
                 statIconName="fas fa-user"
                 statIconColor="bg-emerald-500"
               />
@@ -79,7 +79,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="ADMIN"
-                :statTitle="totaluser.admin"
+                :statTitle="totaladmin"
                 statIconName="fas fa-user"
                 statIconColor="bg-red-500"
               />
@@ -87,7 +87,7 @@
             <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
               <card-stats
                 statSubtitle="EMPLOYER"
-                :statTitle="totaluser.finance"
+                :statTitle="totalemployer"
                 statIconName="fas fa-user"
                 statIconColor="bg-yellow-500"
               />
@@ -109,44 +109,24 @@ export default {
     return {
       //  #region TOTAL INCOME
 
-      incomeloading: false,
-      totalincome: 0,
-
-      //  #endregion
-
-      //  #region LOAN
-      loanloading: false,
-      loan: {
-        activeloan: {
-            totalAmount: 0,
-            totalWith5Percent: 0
-        },
-        finishedloan: {
-            totalAmount: 0,
-            totalWith5Percent: 0
-        },
-        loanincome: 0
-      },
-      //  #endregion
-    
-      //  #region TOTAL USERS
-
-      totaluserloading: false,
-      totaluser: {
-        user: 0,
-        admin: 0,
-        customersupport: 0,
-        finance: 0
-      }
-
+      loading:false,
+      totaljob: 0,
+      totalapprovedjobs: 0,
+      totaldeniedjobs: 0,
+      totalpendingjobs: 0,
+      totalforums: 0,
+      totalusers: 0,
+      totaluser: 0,
+      totalemployer: 0,
+      totaladmin: 0
       //  #endregion
     }
   },
   methods: {
-    async GetLoanData(){
-      this.loanloading = true
+    async GetData(){
+      this.loading = true
 
-      const response = await fetch(`${process.env.VUE_APP_API_URL}/loan/getloansadashboard`, {
+      const response = await fetch(`${process.env.VUE_APP_API_URL}/dashboard/sadashboard`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json"
@@ -175,84 +155,21 @@ export default {
         this.$router.push({path: "/"})
       }
 
-      this.loan = responseData.data
-      this.loanloading = false
-    },
-    async GetTotalIncomeData(){
-      this.incomeloading = true
+      this.totaljob = responseData.data.totaljob
+      this.totalapprovedjobs = responseData.data.totalapprovedjobs
+      this.totaldeniedjobs = responseData.data.totaldeniedjobs
+      this.totalpendingjobs = responseData.data.totalpendingjobs
+      this.totalforums = responseData.data.totalforums
+      this.totalusers = responseData.data.totalusers
+      this.totaluser = responseData.data.totaluser
+      this.totalemployer = responseData.data.totalemployer
+      this.totaladmin = responseData.data.totaladmin
 
-      const response = await fetch(`${process.env.VUE_APP_API_URL}/cashin/gettotalincome`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include"
-      });
-
-      const responseData = await response.json();
-
-      if (response.status === 400) {
-        //  API HERE
-        this.$swal({
-          title: responseData.data,
-          icon: "error"
-        })
-
-        this.incomeloading = false
-        return;
-      }
-      else if (response.status == 401){
-        this.$swal({
-          title: "Authentication Failed! You will now be redirected to the login page",
-          icon: "error"
-        })
-
-        this.$router.push({path: "/"})
-      }
-
-      this.totalincome = responseData.data.totalincome
-      this.incomeloading = false
-    },
-    async GetTotalUsers(){
-      this.totaluserloading = true
-
-      const response = await fetch(`${process.env.VUE_APP_API_URL}/users/gettotalusers`, {
-        method: 'GET',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include"
-      });
-
-      const responseData = await response.json();
-
-      if (response.status === 400) {
-        //  API HERE
-        this.$swal({
-          title: responseData.data,
-          icon: "error"
-        })
-
-        this.totaluserloading = false
-        return;
-      }
-      else if (response.status == 401){
-        this.$swal({
-          title: "Authentication Failed! You will now be redirected to the login page",
-          icon: "error"
-        })
-
-        this.$router.push({path: "/"})
-      }
-
-      this.totaluser = responseData.data
-      this.totaluserloading = false
+      this.loading = true
     },
   },
   mounted(){
-    this.GetLoanData()
-    this.GetTotalIncomeData()
-    this.GetTotalUsers()
+    this.GetData()
   }
 };
 </script>
