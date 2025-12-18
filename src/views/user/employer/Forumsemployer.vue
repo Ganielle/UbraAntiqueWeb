@@ -231,6 +231,7 @@ export default {
                 <option value="Tobias Fornier">Tobias Fornier</option>
                 <option value="Anini-y">Anini-y</option>
                 <option value="Caluya">Caluya</option>
+                <option value="Barbaza">Barbaza</option>
               </select>
           `,
           focusConfirm: false,

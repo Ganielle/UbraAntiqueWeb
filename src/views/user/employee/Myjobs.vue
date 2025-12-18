@@ -71,7 +71,12 @@
                             
                             <button v-if="job.selectedStatus == 'Selected'"
                                 style="padding: 6px 12px; background-color: #1640b4; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                                @click="$emit('selectemployee', employee.owner, employee.firstname + ' ' + employee.lastname)"
+                                @click="() =>{
+                                    $router.push({
+                                    path: '/employee/message',
+                                    query: { title: job.title, id: job._id }
+                                    })
+                                }"
                                 >
                                 Message
                             </button>

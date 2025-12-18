@@ -91,55 +91,55 @@ export default {
         }
     },
      methods: {
-        selectConversation(conversation) {
-            this.selectedConversation = conversation
-            this.$emit('conversation-selected', conversation)
-        },
-        formatTime(timestamp){
-            const now = Date.now()
-            const diff = now - timestamp
-            
-            if (diff < 60000) return 'now'
-            if (diff < 3600000) return `${Math.floor(diff / 60000)}m`
-            if (diff < 86400000) return `${Math.floor(diff / 3600000)}h`
-            return new Date(timestamp).toLocaleDateString()
-        },
-        async GetData() {
-          this.loading = true;
+      selectConversation(conversation) {
+          this.selectedConversation = conversation
+          this.$emit('conversation-selected', conversation)
+      },
+      formatTime(timestamp){
+          const now = Date.now()
+          const diff = now - timestamp
+          
+          if (diff < 60000) return 'now'
+          if (diff < 3600000) return `${Math.floor(diff / 60000)}m`
+          if (diff < 86400000) return `${Math.floor(diff / 3600000)}h`
+          return new Date(timestamp).toLocaleDateString()
+      },
+      async GetData() {
+        this.loading = true;
 
-          const response = await fetch(`${process.env.VUE_APP_API_URL}/chat/getconversations?search=${this.searchQuery}`, {
-              method: 'GET',
-              headers: {
-              "Content-Type": "application/json"
-              },
-              credentials: "include"
-          });
+        const response = await fetch(`${process.env.VUE_APP_API_URL}/chat/getconversations?search=${this.searchQuery}`, {
+            method: 'GET',
+            headers: {
+            "Content-Type": "application/json"
+            },
+            credentials: "include"
+        });
 
-          const responseData = await response.json();
+        const responseData = await response.json();
 
-          if (response.status === 400) {
-              //  API HERE
-              this.$swal({
-              title: responseData.data,
-              icon: "error"
-              })
+        if (response.status === 400) {
+            //  API HERE
+            this.$swal({
+            title: responseData.data,
+            icon: "error"
+            })
 
-              this.loading = false;
-              return;
-          }
-          else if (response.status == 401){
-              this.$swal({
-              title: "Authentication Failed! You will now be redirected to the login page",
-              icon: "error"
-              })
+            this.loading = false;
+            return;
+        }
+        else if (response.status == 401){
+            this.$swal({
+            title: "Authentication Failed! You will now be redirected to the login page",
+            icon: "error"
+            })
 
-              this.$router.push({path: "/"})
-              return;
-          }
+            this.$router.push({path: "/"})
+            return;
+        }
 
-          this.conversations = responseData.data
-          this.loading = false;
-        },
+        this.conversations = responseData.data
+        this.loading = false;
+      },
     },
     mounted() {
       this.GetData()

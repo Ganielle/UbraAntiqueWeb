@@ -358,7 +358,7 @@
         </ul>
 
         <!--#region FOURTH NAVIGATION-->
-        <hr class="my-4 md:min-w-full" />
+        <!-- <hr class="my-4 md:min-w-full" />
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           
           <li class="items-center">
@@ -384,7 +384,7 @@
               </a>
             </router-link>
           </li>
-        </ul>
+        </ul> -->
 
         <br/>
       </div>

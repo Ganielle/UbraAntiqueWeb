@@ -42,7 +42,7 @@ import MessageList from '@/components/Messaging/Messagelist.vue'
 import ChatWindow from '@/components/Messaging/Chatwindow.vue'
 
 export default {
-  name: "user-messaging-page",
+  name: "employer-messaging-page",
   components: {
     MessageList,
     ChatWindow
@@ -54,9 +54,8 @@ export default {
   },
   methods: {
     handleConversationSelected(conversation) {
-      console.log("hello")
         this.selectedConversation = conversation
-    }
+    },
 },
 //   mounted() {
 //     this.GetData()

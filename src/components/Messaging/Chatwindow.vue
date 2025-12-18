@@ -62,82 +62,142 @@
 <script>
 import MessageBubble from './Messagebubble.vue'
 export default {
-    name: "user-message-bubble",
-    props: {
-        selectedConversation: {
-            type: Object,
-            default: null
-        }
-    },
-    components: {
-        MessageBubble
-    },
-    data() {
-        return {
-            newMessage: "",
-            messages: [],
-            sampleMessages: {
-                1: [
-                    {
-                    id: 1,
-                    text: "You have been selected for this work!",
-                    sender: "Gabrielle Daniel",
-                    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-                    timestamp: Date.now() - 600000,
-                    isOwn: false
-                    },
-                    {
-                    id: 2,
-                    text: "Awesome! I'm available now, when can I start?",
-                    sender: "You",
-                    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face",
-                    timestamp: Date.now() - 300000,
-                    isOwn: true
-                    },
-                    {
-                    id: 3,
-                    text: "Good! I will see you tomorrow 8am",
-                    sender: "John Smith",
-                    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
-                    timestamp: Date.now() - 120000,
-                    isOwn: false
-                    }
-                ],
-            }
-        }
-    },
-    methods: {
-        formatTime(timestamp){
-            return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        },
-        sendMessage() {
-            if (!this.newMessage.value.trim() || !this.selectedConversation) return
-  
-            const message = {
-                id: Date.now(),
-                text: this.newMessage.value.trim(),
-                sender: "You",
-                avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face",
-                timestamp: Date.now(),
-                isOwn: true
-            }
-            
-            this.messages.value.push(message)
-            this.newMessage.value = ''
-        }
-    },
-    watch: {
-        selectedConversation: {
-            handler(newConversation) {
-                if (newConversation) {
-                this.messages = this.sampleMessages[newConversation.id] || []
-                }
+  name: "user-message-bubble",
+  props: {
+      selectedConversation: {
+          type: Object,
+          default: null
+      }
+  },
+  components: {
+      MessageBubble
+  },
+  data() {
+      return {
+          newMessage: "",
+          messages: [],
+          sampleMessages: {
+              1: [
+                  {
+                  id: 1,
+                  text: "You have been selected for this work!",
+                  sender: "Gabrielle Daniel",
+                  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+                  timestamp: Date.now() - 600000,
+                  isOwn: false
+                  },
+                  {
+                  id: 2,
+                  text: "Awesome! I'm available now, when can I start?",
+                  sender: "You",
+                  avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face",
+                  timestamp: Date.now() - 300000,
+                  isOwn: true
+                  },
+                  {
+                  id: 3,
+                  text: "Good! I will see you tomorrow 8am",
+                  sender: "John Smith",
+                  avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+                  timestamp: Date.now() - 120000,
+                  isOwn: false
+                  }
+              ],
+          },
+          loading: false
+      }
+  },
+  methods: {
+      formatTime(timestamp){
+          return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      },
+      async sendMessage() {
+          if (!this.newMessage || !this.selectedConversation) return
+
+        const response = await fetch(`${process.env.VUE_APP_API_URL}/chat/sendmessage`,{
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
             },
-            immediate: true
+            credentials: "include",
+            body: JSON.stringify({
+              message: this.newMessage,
+              conversationid: this.selectedConversation._id,
+            })
+        });
+
+        const responseData = await response.json();
+
+        if (response.status === 400) {
+            //  API HERE
+            this.$swal({
+            title: responseData.data,
+            icon: "error"
+            })
+
+            this.loading = false;
+            return;
         }
-    }
-//   mounted() {
-//     this.GetData()
-//   }
+        else if (response.status == 401){
+            this.$swal({
+            title: "Authentication Failed! You will now be redirected to the login page",
+            icon: "error"
+            })
+
+            this.$router.push({path: "/"})
+            return;
+        }
+
+        this.newMessage = ""
+        this.GetData()
+      },
+      async GetData() {
+          if (!this.selectedConversation) return
+
+        const response = await fetch(`${process.env.VUE_APP_API_URL}/chat/getchats?chatid=${this.selectedConversation._id}`, {
+            method: 'GET',
+            headers: {
+            "Content-Type": "application/json"
+            },
+            credentials: "include"
+        });
+
+        const responseData = await response.json();
+
+        if (response.status === 400) {
+            //  API HERE
+            this.$swal({
+            title: responseData.data,
+            icon: "error"
+            })
+
+            this.loading = false;
+            return;
+        }
+        else if (response.status == 401){
+            this.$swal({
+            title: "Authentication Failed! You will now be redirected to the login page",
+            icon: "error"
+            })
+
+            this.$router.push({path: "/"})
+            return;
+        }
+
+        this.messages = responseData.data
+        this.loading = false;
+      },
+  },
+  watch: {
+      selectedConversation: {
+        async handler(newConversation) {
+            if (!newConversation || !newConversation._id) return;
+
+            // fetch messages for this conversation
+            await this.GetData();
+        },
+        immediate: true
+      }
+  }
 };
 </script>
