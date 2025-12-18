@@ -57,8 +57,12 @@
               
               <div class="text-center mt-6 relative">
                 <router-link to="/register" @click.native.prevent="loginloading ? null : $router.push('/register')">
-                    <small>Create new account</small>
-                  </router-link>
+                  <small>Create new account</small>
+                </router-link>
+                <br/><br/>
+                <router-link to="/forgotpassword" @click.native.prevent="loginloading ? null : $router.push('/forgotpassword')">
+                  <small>Forgot password?</small>
+                </router-link>
               </div>
             </form>
           </div>

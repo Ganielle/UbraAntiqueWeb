@@ -120,8 +120,8 @@
 
               <div class="text-center mt-6">
                 <router-link to="/">
-                    <small>Do you have an account? Login here</small>
-                  </router-link>
+                  <small>Do you have an account? Login here</small>
+                </router-link>
               </div>
             </form>
           </div>

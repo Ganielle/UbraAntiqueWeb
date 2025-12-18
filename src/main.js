@@ -19,6 +19,7 @@ import { vfmPlugin } from 'vue-final-modal'
 import Login from "@/views/auth/Login.vue";
 import Register from "@/views/auth/Register.vue";
 import Auth from "@/layouts/Auth.vue";
+import Forgotpassword from "./views/auth/Forgotpassword.vue";
 
 import Admin from "@/layouts/Admin.vue";
 import User from '@/layouts/User.vue'
@@ -287,6 +288,10 @@ const routes = [
         path: "/register",
         component: Register,
       },
+      {
+        path: "/forgotpassword",
+        component: Forgotpassword
+      }
     ],
   },
   { path: "/:pathMatch(.*)*", redirect: "/" },
