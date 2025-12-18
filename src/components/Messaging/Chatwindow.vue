@@ -3,7 +3,13 @@
     <!-- Chat Header -->
     <div v-if="selectedConversation" class="p-4 border-b border-gray-200 flex items-center">
       <div class="ml-3">
-        <h3 class="font-semibold text-gray-900">{{ selectedConversation.name }}</h3>
+        <h3 class="font-semibold text-gray-900">{{ selectedConversation.title }}</h3>
+        <button
+          class="bg-emerald-500 text-white px-3 py-1 rounded shadow hover:shadow-lg"
+          @click="GetData()"
+        >
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </button>
       </div>
     </div>
 
