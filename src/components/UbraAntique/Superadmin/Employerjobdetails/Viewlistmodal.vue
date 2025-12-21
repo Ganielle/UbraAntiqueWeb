@@ -44,7 +44,7 @@
                     style="padding: 6px 12px; background-color: #1640b4; color: white; border: none; border-radius: 4px; cursor: pointer;"
                     @click="$emit('selectemployee', employee.owner, employee.firstname + ' ' + employee.lastname)"
                     >
-                    Select Employee
+                    Select Worker
                 </button>
                 <button
                     style="padding: 6px 12px; background-color: #20C7C7; color: white; border: none; border-radius: 4px; cursor: pointer;"

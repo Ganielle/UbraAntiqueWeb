@@ -8,7 +8,7 @@
           class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0"
         >
           <div class="flex-auto px-4 lg:px-10 py-10 pt-5">
-            <div class="text-blueGray-400 text-center mb-3 font-bold">
+            <div class="text-black-400 text-center mb-3 font-bold">
               <p style="font-size: 1.3rem;">Sign up</p>
             </div>
             <form>
@@ -101,7 +101,7 @@
                   v-model="user.profiletype"
                 >
                   <option value="">Please select your profile type</option>
-                  <option value="employee">Employee</option>
+                  <option value="employee">Worker</option>
                   <option value="employer">Employer</option>
                 </select>
               </div>
